@@ -64,7 +64,7 @@ public class MainScreen extends javax.swing.JFrame {
         LoginLabel.setForeground(new java.awt.Color(255, 255, 255));
         LoginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         LoginLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn300x60.png"))); // NOI18N
-        LoginLabel.setText("LOGIN");
+        LoginLabel.setText("LOGIN HERE");
         LoginLabel.setToolTipText("");
         LoginLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         LoginLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -82,7 +82,7 @@ public class MainScreen extends javax.swing.JFrame {
         LoginLabel1.setForeground(new java.awt.Color(255, 255, 255));
         LoginLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         LoginLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn300x60.png"))); // NOI18N
-        LoginLabel1.setText("APPLY");
+        LoginLabel1.setText(" APPLY NOW");
         LoginLabel1.setToolTipText("");
         LoginLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         LoginLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);

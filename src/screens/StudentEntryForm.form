@@ -658,7 +658,7 @@
           <Properties>
             <Property name="columns" type="int" value="20"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Monospaced" size="12" style="1"/>
+              <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="rows" type="int" value="5"/>
           </Properties>
@@ -1173,10 +1173,10 @@
         </Property>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
           <StringArray count="4">
-            <StringItem index="0" value="Select"/>
-            <StringItem index="1" value="Confirm"/>
-            <StringItem index="2" value="Pending"/>
-            <StringItem index="3" value="Cancelled"/>
+            <StringItem index="0" value="SELECT"/>
+            <StringItem index="1" value="CONFIRM"/>
+            <StringItem index="2" value="PENDING"/>
+            <StringItem index="3" value="CANCELLED"/>
           </StringArray>
         </Property>
       </Properties>

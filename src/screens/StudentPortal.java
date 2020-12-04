@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import models.Student;
 import repository.DBConnection;
@@ -27,35 +28,29 @@ public class StudentPortal extends javax.swing.JFrame {
 
     Connection con = new DBConnection().connect();
 
+    ArrayList<Student> student_list = new ArrayList<Student>();
+
     private void customizeComponents() {
         StudentTable.getTableHeader().setFont(new java.awt.Font("Tahoma", 1, 12));
         StudentTable.getTableHeader().setForeground(new java.awt.Color(0, 150, 150));
         if (role != Role.ADMIN) {
             EntryButton.setEnabled(false);
             ConfirmationButton.setEnabled(false);
-            DeleteButton.setEnabled(false);
         }
     }
 
     private ArrayList<Student> retrieveData() {
-        ArrayList<Student> student_list = new ArrayList<Student>();
         String qry = null;
+        student_list.clear();
 
         try {
-            if (role == Role.STUDENT) {
-                qry = "SELECT name, roll_no, application_no, registration_no, "
-                        + "mother_name, mother_occupation, address, father_name, father_occupation, "
-                        + "sex, dob, phone, email, photo, date_of_application, course, branch, batch, "
-                        + "semester, year_of_passing, hostel, library, qualification, university, "
-                        + "quota, marks, status FROM student WHERE application_no LIKE '%" + application_no + "%'";
-            }
-            else{
-                qry = "SELECT name, roll_no, application_no, registration_no, "
+
+            qry = "SELECT name, roll_no, application_no, registration_no, "
                     + "mother_name, mother_occupation, address, father_name, father_occupation, "
                     + "sex, dob, phone, email, photo, date_of_application, course, branch, batch, "
                     + "semester, year_of_passing, hostel, library, qualification, university, "
                     + "quota, marks, status FROM student";
-            }
+
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(qry);
             Student student;
@@ -77,7 +72,7 @@ public class StudentPortal extends javax.swing.JFrame {
     }
 
     private void fillTable() {
-        ArrayList<Student> student_list = retrieveData();
+        student_list = retrieveData();
         DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
         model.setRowCount(0);
         Object[] row = new Object[6];
@@ -108,8 +103,8 @@ public class StudentPortal extends javax.swing.JFrame {
         TitleLabel = new javax.swing.JLabel();
         ButtonPanel = new javax.swing.JPanel();
         EntryButton = new javax.swing.JButton();
+        ApplicationButton = new javax.swing.JButton();
         ConfirmationButton = new javax.swing.JButton();
-        DeleteButton = new javax.swing.JButton();
         RefreshButton = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         SearchTextField = new javax.swing.JTextField();
@@ -134,7 +129,7 @@ public class StudentPortal extends javax.swing.JFrame {
         EntryButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         EntryButton.setForeground(new java.awt.Color(0, 150, 150));
         EntryButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/user_add.png"))); // NOI18N
-        EntryButton.setText("Entry");
+        EntryButton.setText("Entry Form");
         EntryButton.setBorder(null);
         EntryButton.setBorderPainted(false);
         EntryButton.setContentAreaFilled(false);
@@ -149,10 +144,28 @@ public class StudentPortal extends javax.swing.JFrame {
         });
         ButtonPanel.add(EntryButton);
 
+        ApplicationButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        ApplicationButton.setForeground(new java.awt.Color(0, 150, 150));
+        ApplicationButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/form_add.png"))); // NOI18N
+        ApplicationButton.setText("Application Form");
+        ApplicationButton.setBorder(null);
+        ApplicationButton.setBorderPainted(false);
+        ApplicationButton.setContentAreaFilled(false);
+        ApplicationButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ApplicationButton.setFocusable(false);
+        ApplicationButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ApplicationButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        ApplicationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ApplicationButtonActionPerformed(evt);
+            }
+        });
+        ButtonPanel.add(ApplicationButton);
+
         ConfirmationButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         ConfirmationButton.setForeground(new java.awt.Color(0, 150, 150));
-        ConfirmationButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/user_confirm.png"))); // NOI18N
-        ConfirmationButton.setText("Confirmation");
+        ConfirmationButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/list80.png"))); // NOI18N
+        ConfirmationButton.setText("View Applications");
         ConfirmationButton.setBorder(null);
         ConfirmationButton.setBorderPainted(false);
         ConfirmationButton.setContentAreaFilled(false);
@@ -166,24 +179,6 @@ public class StudentPortal extends javax.swing.JFrame {
             }
         });
         ButtonPanel.add(ConfirmationButton);
-
-        DeleteButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        DeleteButton.setForeground(new java.awt.Color(0, 150, 150));
-        DeleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/cancel80.png"))); // NOI18N
-        DeleteButton.setText("Delete");
-        DeleteButton.setBorder(null);
-        DeleteButton.setBorderPainted(false);
-        DeleteButton.setContentAreaFilled(false);
-        DeleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        DeleteButton.setFocusable(false);
-        DeleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        DeleteButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        DeleteButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                DeleteButtonActionPerformed(evt);
-            }
-        });
-        ButtonPanel.add(DeleteButton);
 
         RefreshButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         RefreshButton.setForeground(new java.awt.Color(0, 150, 150));
@@ -216,8 +211,8 @@ public class StudentPortal extends javax.swing.JFrame {
             }
         });
 
-        StudentScrollPane.setBorder(null);
-        StudentScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        StudentScrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "All Students", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(0, 150, 150))); // NOI18N
+        StudentScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         StudentScrollPane.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         StudentScrollPane.setRowHeaderView(null);
 
@@ -230,6 +225,7 @@ public class StudentPortal extends javax.swing.JFrame {
                 "Roll No.", "Name", "Father's Name", "Course", "Branch", "Semester"
             }
         ));
+        StudentTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         StudentTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         StudentTable.setShowGrid(true);
         StudentTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -283,8 +279,8 @@ public class StudentPortal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void EntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntryButtonActionPerformed
-        StudentEntryForm applicationForm = new StudentEntryForm(role);
-        applicationForm.setVisible(true);
+        StudentEntryForm entryForm = new StudentEntryForm(role);
+        entryForm.setVisible(true);
     }//GEN-LAST:event_EntryButtonActionPerformed
 
     private void RefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshButtonActionPerformed
@@ -294,58 +290,16 @@ public class StudentPortal extends javax.swing.JFrame {
     }//GEN-LAST:event_RefreshButtonActionPerformed
 
     private void ConfirmationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmationButtonActionPerformed
-        
-        ArrayList<Student> student_list = new ArrayList<Student>();
 
-        String val = SearchTextField.getText().toString();
-        try {
+        StudentApplicationsScreen studentApplicationsScreen = new StudentApplicationsScreen();
+        studentApplicationsScreen.setVisible(true);
 
-            String qry = "SELECT name, roll_no, application_no, registration_no, "
-                    + "mother_name, mother_occupation, address, father_name, father_occupation, "
-                    + "sex, dob, phone, email, photo, date_of_application, course, branch, batch, "
-                    + "semester, year_of_passing, hostel, library, qualification, university, "
-                    + "quota, marks, status FROM application_form";
-            Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery(qry);
-            Student student;
-            while (rs.next()) {
-                student = new Student(rs.getString("name"), rs.getString("roll_no"), rs.getString("application_no"),
-                        rs.getString("registration_no"), rs.getString("mother_name"), rs.getString("mother_occupation"),
-                        rs.getString("address"), rs.getString("father_name"), rs.getString("father_occupation"),
-                        rs.getString("sex"), rs.getString("dob"), rs.getString("phone"), rs.getString("email"),
-                        rs.getBytes("photo"), rs.getString("date_of_application"), rs.getString("course"), rs.getString("branch"),
-                        rs.getInt("batch"), rs.getString("semester"), rs.getInt("year_of_passing"), rs.getBoolean("hostel"), rs.getBoolean("library"),
-                        rs.getString("qualification"), rs.getString("university"), rs.getString("quota"), rs.getString("marks"), rs.getString("status"));
-                student_list.add(student);
-            }
-            DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
-            model.setRowCount(0); // Empty/clear the table
-            Object[] row = new Object[6];
-            for (int i = 0; i < student_list.size(); i++) {
-                row[0] = student_list.get(i).getRollNo();
-                row[1] = student_list.get(i).getName();
-                row[2] = student_list.get(i).getFather_name();
-                row[3] = student_list.get(i).getCourse();
-                row[4] = student_list.get(i).getBranch();
-                row[5] = student_list.get(i).getSemester();
-                model.addRow(row);
-            }
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-        
     }//GEN-LAST:event_ConfirmationButtonActionPerformed
-
-    private void DeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_DeleteButtonActionPerformed
 
     private void SearchButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchButtonMousePressed
 
-        ArrayList<Student> student_list = new ArrayList<Student>();
-
         String val = SearchTextField.getText().toString();
+        student_list.clear();
         try {
 
             String qry = "SELECT name, roll_no, application_no, registration_no, "
@@ -369,15 +323,20 @@ public class StudentPortal extends javax.swing.JFrame {
             }
             DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
             model.setRowCount(0); // Empty/clear the table
-            Object[] row = new Object[6];
-            for (int i = 0; i < student_list.size(); i++) {
-                row[0] = student_list.get(i).getRollNo();
-                row[1] = student_list.get(i).getName();
-                row[2] = student_list.get(i).getFather_name();
-                row[3] = student_list.get(i).getCourse();
-                row[4] = student_list.get(i).getBranch();
-                row[5] = student_list.get(i).getSemester();
-                model.addRow(row);
+            if (student_list.size() == 0) {
+                JOptionPane.showMessageDialog(null, "No Records Found!");
+
+            } else {
+                Object[] row = new Object[6];
+                for (int i = 0; i < student_list.size(); i++) {
+                    row[0] = student_list.get(i).getRollNo();
+                    row[1] = student_list.get(i).getName();
+                    row[2] = student_list.get(i).getFather_name();
+                    row[3] = student_list.get(i).getCourse();
+                    row[4] = student_list.get(i).getBranch();
+                    row[5] = student_list.get(i).getSemester();
+                    model.addRow(row);
+                }
             }
 
         } catch (Exception e) {
@@ -388,13 +347,18 @@ public class StudentPortal extends javax.swing.JFrame {
 
     private void StudentTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentTableMousePressed
         int ind = StudentTable.getSelectedRow();
-        StudentEntryForm applicationForm = new StudentEntryForm(role);
-        applicationForm.setVisible(true);
-        applicationForm.showItemToFields(ind);
+        String roll_no = student_list.get(ind).getRollNo();
+        StudentEntryForm entryForm = new StudentEntryForm(role);
+        entryForm.setVisible(true);
+        entryForm.showItemToFields(ind, roll_no);
     }//GEN-LAST:event_StudentTableMousePressed
 
-    public static void main(String args[]) {
+    private void ApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ApplicationButtonActionPerformed
+        StudentApplicationForm applicationForm = new StudentApplicationForm(role);
+        applicationForm.setVisible(true);
+    }//GEN-LAST:event_ApplicationButtonActionPerformed
 
+    public static void main(String args[]) {
         try {
             javax.swing.UIManager.setLookAndFeel(new FlatLightLaf());
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
@@ -409,9 +373,9 @@ public class StudentPortal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ApplicationButton;
     private javax.swing.JPanel ButtonPanel;
     private javax.swing.JButton ConfirmationButton;
-    private javax.swing.JButton DeleteButton;
     private javax.swing.JButton EntryButton;
     private javax.swing.JButton RefreshButton;
     private javax.swing.JButton SearchButton;

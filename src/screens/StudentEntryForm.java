@@ -12,6 +12,7 @@ import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -36,7 +37,8 @@ public class StudentEntryForm extends javax.swing.JFrame {
     static Role role;
 
     String photopath = null;
-    
+    Date date = new Date();
+
     Connection con = new DBConnection().connect();
 
     private String generateAppNo() {
@@ -45,20 +47,20 @@ public class StudentEntryForm extends javax.swing.JFrame {
 
     }
 
-    private ArrayList<Student> retrieveData() {
-        ArrayList<Student> student_list = new ArrayList<Student>();
+    private Student retrieveData(String roll_no) {
         String qry = null;
+        Student student = null;
 
         try {
             qry = "SELECT name, roll_no, application_no, registration_no, "
                     + "mother_name, mother_occupation, address, father_name, father_occupation, "
                     + "sex, dob, phone, email, photo, date_of_application, course, branch, batch, "
                     + "semester, year_of_passing, hostel, library, qualification, university, "
-                    + "quota, marks, status FROM student";
+                    + "quota, marks, status FROM student WHERE roll_no=" + roll_no;
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(qry);
-            Student student;
-            while (rs.next()) {
+
+            if (rs.next()) {
                 student = new Student(rs.getString("name"), rs.getString("roll_no"), rs.getString("application_no"),
                         rs.getString("registration_no"), rs.getString("mother_name"), rs.getString("mother_occupation"),
                         rs.getString("address"), rs.getString("father_name"), rs.getString("father_occupation"),
@@ -66,64 +68,65 @@ public class StudentEntryForm extends javax.swing.JFrame {
                         rs.getBytes("photo"), rs.getString("date_of_application"), rs.getString("course"), rs.getString("branch"),
                         rs.getInt("batch"), rs.getString("semester"), rs.getInt("year_of_passing"), rs.getBoolean("hostel"), rs.getBoolean("library"),
                         rs.getString("qualification"), rs.getString("university"), rs.getString("quota"), rs.getString("marks"), rs.getString("status"));
-                student_list.add(student);
+
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        return student_list;
+        return student;
     }
 
-    public void showItemToFields(int index) {
-        final ArrayList<Student> data = retrieveData();
+    public void showItemToFields(int index, String roll_no) {
+        final Student data = retrieveData(roll_no);
         ArrayList<String> courses = DBFunctions.loadCourses();
         CourseComboBox.setModel(new DefaultComboBoxModel<String>(courses.toArray(new String[0])));
 
-        ArrayList<String> branches = DBFunctions.loadBranches(data.get(index).getCourse());
+        ArrayList<String> branches = DBFunctions.loadBranches(data.getCourse());
         BranchComboBox.setModel(new DefaultComboBoxModel<String>(branches.toArray(new String[0])));
 
-        ApplNoTextField.setText(data.get(index).getApplicationNo());
-        RolllNoTextField.setText(data.get(index).getRollNo());
-        RegNoTextField.setText(data.get(index).getRegNo());
-        NameTextField.setText(data.get(index).getName());
-        SexComboBox.setSelectedItem(data.get(index).getSex());
+        ApplNoTextField.setText(data.getApplicationNo());
+        RolllNoTextField.setText(data.getRollNo());
+        RegNoTextField.setText(data.getRegNo());
+        NameTextField.setText(data.getName());
+        SexComboBox.setSelectedItem(data.getSex());
 
         try {
-            java.util.Date dob = null;
+            Date dob = null;
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-            dob = sdf.parse(data.get(index).getDob());
+            dob = sdf.parse(data.getDob());
             DOBChooser.setDate(dob);
-            java.util.Date date = null;
-            date = sdf.parse(data.get(index).getDate_of_application());
+            Date date = null;
+            date = sdf.parse(data.getDate_of_application());
             DateChooser.setDate(date);
         } catch (ParseException e) {
             System.out.println("Error in showItemToFields method...");
         }
-        MotherNameTextField.setText(data.get(index).getMother_name());
-        MotherOccupationTextField.setText(data.get(index).getMother_occupation());
-        FatherNameTextField.setText(data.get(index).getFather_name());
-        FatherOccupationTextField.setText(data.get(index).getFather_occupation());
-        AddressTextArea.setText(data.get(index).getAddress());
-        PhoneTextField.setText(data.get(index).getPhone());
-        EmailTextField.setText(data.get(index).getEmail());
-        CourseComboBox.setSelectedItem(data.get(index).getCourse());
-        BranchComboBox.setSelectedItem(data.get(index).getBranch());
-        SemesterComboBox.setSelectedItem(data.get(index).getSemester());
-        BatchYearChooser.setYear(data.get(index).getBatch());
-        PassingYearChooser.setYear(data.get(index).getPassing_year());
-        HostelCheckBox.setSelected(data.get(index).isIsHostler());
-        LibraryCheckBox.setSelected(data.get(index).isLibraryFacility());
-        QualificationTextField.setText(data.get(index).getQualification());
-        UniversityTextField.setText(data.get(index).getUniversity());
-        QuotaComboBox.setSelectedItem(data.get(index).getQuota());
-        MarksTextField.setText(data.get(index).getMarks());
-        StatusComboBox.setSelectedItem(data.get(index).getStatus());
+        MotherNameTextField.setText(data.getMother_name());
+        MotherOccupationTextField.setText(data.getMother_occupation());
+        FatherNameTextField.setText(data.getFather_name());
+        FatherOccupationTextField.setText(data.getFather_occupation());
+        AddressTextArea.setText(data.getAddress());
+        PhoneTextField.setText(data.getPhone());
+        EmailTextField.setText(data.getEmail());
+        CourseComboBox.setSelectedItem(data.getCourse());
+        BranchComboBox.setSelectedItem(data.getBranch());
+        SemesterComboBox.setSelectedItem(data.getSemester());
+        BatchYearChooser.setYear(data.getBatch());
+        PassingYearChooser.setYear(data.getPassing_year());
+        HostelCheckBox.setSelected(data.isIsHostler());
+        LibraryCheckBox.setSelected(data.isLibraryFacility());
+        QualificationTextField.setText(data.getQualification());
+        UniversityTextField.setText(data.getUniversity());
+        QuotaComboBox.setSelectedItem(data.getQuota());
+        MarksTextField.setText(data.getMarks());
+        StatusComboBox.setSelectedItem(data.getStatus());
 
-        PhotoLabel.setIcon(UtilFunctions.resizeImage(null, data.get(index).getPhoto(), PhotoLabel));
+        PhotoLabel.setIcon(UtilFunctions.resizeImage(null, data.getPhoto(), PhotoLabel));
     }
 
     private void customizeComponents() {
+        DateChooser.setDate(date);
         String app_no = generateAppNo();
         ApplNoTextField.setText(app_no);
         if (role != Role.ADMIN) {
@@ -181,8 +184,9 @@ public class StudentEntryForm extends javax.swing.JFrame {
         EmailTextField.setText("");
         BatchYearChooser.setYear(2020);
         PassingYearChooser.setYear(2020);
-        photopath = "";
-        DateChooser.setDate(null);
+        photopath = null;
+        PhotoLabel.setIcon(null);
+        DateChooser.setDate(date);
         QualificationTextField.setText("");
         UniversityTextField.setText("");
         MarksTextField.setText("");
@@ -350,7 +354,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
         jLabel12.setText("Address");
 
         AddressTextArea.setColumns(20);
-        AddressTextArea.setFont(new java.awt.Font("Monospaced", 1, 12)); // NOI18N
+        AddressTextArea.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         AddressTextArea.setRows(5);
         AddressScrollPane.setViewportView(AddressTextArea);
 
@@ -542,7 +546,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
         QuotaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Entrance Exam", "Academic Marks", "Management Quota" }));
 
         StatusComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        StatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "Confirm", "Pending", "Cancelled" }));
+        StatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT", "CONFIRM", "PENDING", "CANCELLED" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

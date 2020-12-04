@@ -92,6 +92,11 @@ public class HomeScreen extends javax.swing.JFrame {
         FacultyButton.setFocusable(false);
         FacultyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         FacultyButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        FacultyButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                FacultyButtonMousePressed(evt);
+            }
+        });
 
         LibraryButton.setFont(LibraryButton.getFont().deriveFont(LibraryButton.getFont().getStyle() | java.awt.Font.BOLD, LibraryButton.getFont().getSize()+3));
         LibraryButton.setForeground(new java.awt.Color(80, 180, 140));
@@ -228,6 +233,11 @@ public class HomeScreen extends javax.swing.JFrame {
         studentPortal.setVisible(true);
 
     }//GEN-LAST:event_StudentButtonMousePressed
+
+    private void FacultyButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FacultyButtonMousePressed
+        FacultyPortal facultyPortal = new FacultyPortal(role);
+        facultyPortal.setVisible(true);
+    }//GEN-LAST:event_FacultyButtonMousePressed
 
     public static void main(String args[]) {
 
