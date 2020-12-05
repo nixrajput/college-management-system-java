@@ -300,6 +300,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
         DateChooser.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
 
         BatchYearChooser.setEndYear(2050);
+        BatchYearChooser.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         BatchYearChooser.setStartYear(2000);
 
         jLabel4.setFont(jLabel4.getFont().deriveFont(jLabel4.getFont().getStyle() | java.awt.Font.BOLD, jLabel4.getFont().getSize()+3));
@@ -307,6 +308,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
         jLabel4.setText("Y.O.P");
 
         PassingYearChooser.setEndYear(2050);
+        PassingYearChooser.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         PassingYearChooser.setStartYear(2000);
 
         jLabel5.setFont(jLabel5.getFont().deriveFont(jLabel5.getFont().getStyle() | java.awt.Font.BOLD, jLabel5.getFont().getSize()+3));

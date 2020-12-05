@@ -141,8 +141,6 @@ public class Student {
     public String getStatus() {
         return status;
     }
-    
-    
 
     public Student(String name, String rollNo, String applicationNo, String regNo,
             String mother_name, String mother_occupation, String address,

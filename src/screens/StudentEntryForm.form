@@ -479,6 +479,9 @@
     <Component class="com.toedter.calendar.JYearChooser" name="BatchYearChooser">
       <Properties>
         <Property name="endYear" type="int" value="2050"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="1"/>
+        </Property>
         <Property name="startYear" type="int" value="2000"/>
       </Properties>
     </Component>
@@ -498,6 +501,9 @@
     <Component class="com.toedter.calendar.JYearChooser" name="PassingYearChooser">
       <Properties>
         <Property name="endYear" type="int" value="2050"/>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Tahoma" size="12" style="1"/>
+        </Property>
         <Property name="startYear" type="int" value="2000"/>
       </Properties>
     </Component>
