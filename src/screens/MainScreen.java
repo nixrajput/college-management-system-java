@@ -13,13 +13,17 @@ public class MainScreen extends javax.swing.JFrame {
     int deviceWidth = java.awt.Toolkit.getDefaultToolkit().getScreenSize().width;
     int deviceHeight = java.awt.Toolkit.getDefaultToolkit().getScreenSize().height;
 
-    Connection conn = new DBConnection().connect();
+    private final Connection conn = new DBConnection().connect();
     URL iconURL = getClass().getResource("/assets/college_mang_icon.png");
     ImageIcon icon = new ImageIcon(iconURL);
 
+    private void customizeComponents() {
+        setLocationRelativeTo(this);
+    }
+
     public MainScreen() {
         initComponents();
-        setLocationRelativeTo(this);
+        customizeComponents();
     }
 
     @SuppressWarnings("unchecked")
@@ -30,9 +34,9 @@ public class MainScreen extends javax.swing.JFrame {
         ToLabel = new javax.swing.JLabel();
         WelcomeLabel = new javax.swing.JLabel();
         AppNameLabel = new javax.swing.JLabel();
-        LoginLabel = new javax.swing.JLabel();
+        LoginButton = new javax.swing.JLabel();
         BannerLabel = new javax.swing.JLabel();
-        LoginLabel1 = new javax.swing.JLabel();
+        ApplyButton = new javax.swing.JLabel();
 
         jLabel2.setText("jLabel2");
 
@@ -60,17 +64,17 @@ public class MainScreen extends javax.swing.JFrame {
         AppNameLabel.setForeground(new java.awt.Color(60, 185, 145));
         AppNameLabel.setText(bundle.getString("APP_NAME")); // NOI18N
 
-        LoginLabel.setFont(LoginLabel.getFont().deriveFont(LoginLabel.getFont().getStyle() | java.awt.Font.BOLD, LoginLabel.getFont().getSize()+5));
-        LoginLabel.setForeground(new java.awt.Color(255, 255, 255));
-        LoginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LoginLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn300x60.png"))); // NOI18N
-        LoginLabel.setText("LOGIN HERE");
-        LoginLabel.setToolTipText("");
-        LoginLabel.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        LoginLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        LoginLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        LoginButton.setFont(LoginButton.getFont().deriveFont(LoginButton.getFont().getStyle() | java.awt.Font.BOLD, LoginButton.getFont().getSize()+5));
+        LoginButton.setForeground(new java.awt.Color(255, 255, 255));
+        LoginButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LoginButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn300x60.png"))); // NOI18N
+        LoginButton.setText("LOGIN HERE");
+        LoginButton.setToolTipText("");
+        LoginButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        LoginButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        LoginButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                LoginLabelMousePressed(evt);
+                LoginButtonMousePressed(evt);
             }
         });
 
@@ -78,17 +82,17 @@ public class MainScreen extends javax.swing.JFrame {
         BannerLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/college_banner.png"))); // NOI18N
         BannerLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
-        LoginLabel1.setFont(LoginLabel1.getFont().deriveFont(LoginLabel1.getFont().getStyle() | java.awt.Font.BOLD, LoginLabel1.getFont().getSize()+5));
-        LoginLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        LoginLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LoginLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn300x60.png"))); // NOI18N
-        LoginLabel1.setText(" APPLY NOW");
-        LoginLabel1.setToolTipText("");
-        LoginLabel1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        LoginLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        LoginLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+        ApplyButton.setFont(ApplyButton.getFont().deriveFont(ApplyButton.getFont().getStyle() | java.awt.Font.BOLD, ApplyButton.getFont().getSize()+5));
+        ApplyButton.setForeground(new java.awt.Color(255, 255, 255));
+        ApplyButton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        ApplyButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn300x60.png"))); // NOI18N
+        ApplyButton.setText(" APPLY NOW");
+        ApplyButton.setToolTipText("");
+        ApplyButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ApplyButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        ApplyButton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                LoginLabel1MousePressed(evt);
+                ApplyButtonMousePressed(evt);
             }
         });
 
@@ -115,8 +119,8 @@ public class MainScreen extends javax.swing.JFrame {
                         .addGap(306, 306, 306))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(LoginLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(LoginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(ApplyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 340, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(417, 417, 417))))
         );
         layout.setVerticalGroup(
@@ -131,28 +135,25 @@ public class MainScreen extends javax.swing.JFrame {
                 .addGap(49, 49, 49)
                 .addComponent(BannerLabel)
                 .addGap(18, 18, 18)
-                .addComponent(LoginLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(LoginButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(LoginLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addComponent(ApplyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void LoginLabelMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginLabelMousePressed
-
+    private void LoginButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginButtonMousePressed
         this.dispose();
-
         LoginScreen loginScreen = new LoginScreen();
         loginScreen.setVisible(true);
+    }//GEN-LAST:event_LoginButtonMousePressed
 
-    }//GEN-LAST:event_LoginLabelMousePressed
-
-    private void LoginLabel1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginLabel1MousePressed
+    private void ApplyButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ApplyButtonMousePressed
         StudentApplicationForm applicationForm = new StudentApplicationForm(Role.ADMIN);
         applicationForm.setVisible(true);
-    }//GEN-LAST:event_LoginLabel1MousePressed
+    }//GEN-LAST:event_ApplyButtonMousePressed
 
     public static void main(String args[]) {
         try {
@@ -168,9 +169,9 @@ public class MainScreen extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel AppNameLabel;
+    private javax.swing.JLabel ApplyButton;
     private javax.swing.JLabel BannerLabel;
-    private javax.swing.JLabel LoginLabel;
-    private javax.swing.JLabel LoginLabel1;
+    private javax.swing.JLabel LoginButton;
     private javax.swing.JLabel ToLabel;
     private javax.swing.JLabel WelcomeLabel;
     private javax.swing.JLabel jLabel2;

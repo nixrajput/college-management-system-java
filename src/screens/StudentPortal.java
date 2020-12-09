@@ -33,10 +33,6 @@ public class StudentPortal extends javax.swing.JFrame {
     private void customizeComponents() {
         StudentTable.getTableHeader().setFont(new java.awt.Font("Tahoma", 1, 12));
         StudentTable.getTableHeader().setForeground(new java.awt.Color(0, 150, 150));
-        if (role != Role.ADMIN) {
-            EntryButton.setEnabled(false);
-            ConfirmationButton.setEnabled(false);
-        }
     }
 
     private ArrayList<Student> retrieveData() {
@@ -45,11 +41,7 @@ public class StudentPortal extends javax.swing.JFrame {
 
         try {
 
-            qry = "SELECT name, roll_no, application_no, registration_no, "
-                    + "mother_name, mother_occupation, address, father_name, father_occupation, "
-                    + "sex, dob, phone, email, photo, date_of_application, course, branch, batch, "
-                    + "semester, year_of_passing, hostel, library, qualification, university, "
-                    + "quota, marks, status FROM student";
+            qry = "SELECT * FROM student WHERE status LIKE '%CONFIRM%'";
 
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(qry);
@@ -100,15 +92,18 @@ public class StudentPortal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        TitlePanel = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
         ButtonPanel = new javax.swing.JPanel();
         EntryButton = new javax.swing.JButton();
         ApplicationButton = new javax.swing.JButton();
         ConfirmationButton = new javax.swing.JButton();
         RefreshButton = new javax.swing.JButton();
+        SearchPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         SearchTextField = new javax.swing.JTextField();
         SearchButton = new javax.swing.JButton();
+        TablePanel = new javax.swing.JPanel();
         StudentScrollPane = new javax.swing.JScrollPane();
         StudentTable = new javax.swing.JTable();
 
@@ -116,13 +111,34 @@ public class StudentPortal extends javax.swing.JFrame {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("constants/strings"); // NOI18N
         setTitle(bundle.getString("APP_NAME")); // NOI18N
         setIconImage(icon.getImage());
+        setMaximumSize(new java.awt.Dimension(1200, 800));
+        setMinimumSize(new java.awt.Dimension(1200, 800));
         setResizable(false);
 
+        TitlePanel.setBackground(new java.awt.Color(51, 51, 51));
+
         TitleLabel.setFont(TitleLabel.getFont().deriveFont(TitleLabel.getFont().getStyle() | java.awt.Font.BOLD, TitleLabel.getFont().getSize()+29));
-        TitleLabel.setForeground(new java.awt.Color(60, 185, 145));
+        TitleLabel.setForeground(new java.awt.Color(255, 255, 255));
         TitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         TitleLabel.setText("STUDENT PORTAL");
         TitleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout TitlePanelLayout = new javax.swing.GroupLayout(TitlePanel);
+        TitlePanel.setLayout(TitlePanelLayout);
+        TitlePanelLayout.setHorizontalGroup(
+            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TitlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        TitlePanelLayout.setVerticalGroup(
+            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TitlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TitleLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         ButtonPanel.setLayout(new java.awt.GridLayout(1, 0));
 
@@ -211,7 +227,31 @@ public class StudentPortal extends javax.swing.JFrame {
             }
         });
 
-        StudentScrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "All Students", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(0, 150, 150))); // NOI18N
+        javax.swing.GroupLayout SearchPanelLayout = new javax.swing.GroupLayout(SearchPanel);
+        SearchPanel.setLayout(SearchPanelLayout);
+        SearchPanelLayout.setHorizontalGroup(
+            SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SearchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1004, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(SearchButton)
+                .addContainerGap())
+        );
+        SearchPanelLayout.setVerticalGroup(
+            SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SearchPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        StudentScrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Students", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(0, 150, 150))); // NOI18N
         StudentScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         StudentScrollPane.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         StudentScrollPane.setRowHeaderView(null);
@@ -224,8 +264,17 @@ public class StudentPortal extends javax.swing.JFrame {
             new String [] {
                 "Roll No.", "Name", "Father's Name", "Course", "Branch", "Semester"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         StudentTable.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        StudentTable.setGridColor(new java.awt.Color(102, 102, 102));
         StudentTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         StudentTable.setShowGrid(true);
         StudentTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -235,52 +284,56 @@ public class StudentPortal extends javax.swing.JFrame {
         });
         StudentScrollPane.setViewportView(StudentTable);
 
+        javax.swing.GroupLayout TablePanelLayout = new javax.swing.GroupLayout(TablePanel);
+        TablePanel.setLayout(TablePanelLayout);
+        TablePanelLayout.setHorizontalGroup(
+            TablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(StudentScrollPane)
+        );
+        TablePanelLayout.setVerticalGroup(
+            TablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(StudentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(TitlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(StudentScrollPane)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1024, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(SearchButton)))
+                    .addComponent(TablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SearchPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(ButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(TitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1180, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(TitleLabel)
+                .addComponent(TitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(ButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(SearchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(StudentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 540, Short.MAX_VALUE)
+                .addComponent(TablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void EntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntryButtonActionPerformed
-        StudentEntryForm entryForm = new StudentEntryForm(role);
-        entryForm.setVisible(true);
+
+        if (role == Role.ADMIN) {
+            StudentEntryForm entryForm = new StudentEntryForm(role);
+            entryForm.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised!!!");
+        }
+
     }//GEN-LAST:event_EntryButtonActionPerformed
 
     private void RefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshButtonActionPerformed
@@ -291,8 +344,12 @@ public class StudentPortal extends javax.swing.JFrame {
 
     private void ConfirmationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmationButtonActionPerformed
 
-        StudentApplicationsScreen studentApplicationsScreen = new StudentApplicationsScreen();
-        studentApplicationsScreen.setVisible(true);
+        if (role == Role.ADMIN) {
+            StudentApplicationsScreen studentApplicationsScreen = new StudentApplicationsScreen(role);
+            studentApplicationsScreen.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised!!!");
+        }
 
     }//GEN-LAST:event_ConfirmationButtonActionPerformed
 
@@ -302,11 +359,7 @@ public class StudentPortal extends javax.swing.JFrame {
         student_list.clear();
         try {
 
-            String qry = "SELECT name, roll_no, application_no, registration_no, "
-                    + "mother_name, mother_occupation, address, father_name, father_occupation, "
-                    + "sex, dob, phone, email, photo, date_of_application, course, branch, batch, "
-                    + "semester, year_of_passing, hostel, library, qualification, university, "
-                    + "quota, marks, status FROM student WHERE name LIKE '%" + val + "%' OR roll_no LIKE '%" + val + "%' "
+            String qry = "SELECT * FROM student WHERE name LIKE '%" + val + "%' OR roll_no LIKE '%" + val + "%' "
                     + "OR registration_no LIKE '%" + val + "%' OR application_no LIKE '%" + val + "%'";
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(qry);
@@ -322,7 +375,7 @@ public class StudentPortal extends javax.swing.JFrame {
                 student_list.add(student);
             }
             DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
-            model.setRowCount(0); // Empty/clear the table
+            model.setRowCount(0);
             if (student_list.size() == 0) {
                 JOptionPane.showMessageDialog(null, "No Records Found!");
 
@@ -342,15 +395,14 @@ public class StudentPortal extends javax.swing.JFrame {
         } catch (Exception e) {
             System.out.println(e);
         }
-
     }//GEN-LAST:event_SearchButtonMousePressed
 
     private void StudentTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentTableMousePressed
         int ind = StudentTable.getSelectedRow();
-        String roll_no = student_list.get(ind).getRollNo();
+        String reg_no = student_list.get(ind).getRegNo();
         StudentEntryForm entryForm = new StudentEntryForm(role);
         entryForm.setVisible(true);
-        entryForm.showItemToFields(ind, roll_no);
+        entryForm.showItemToFields(reg_no);
     }//GEN-LAST:event_StudentTableMousePressed
 
     private void ApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ApplicationButtonActionPerformed
@@ -379,10 +431,13 @@ public class StudentPortal extends javax.swing.JFrame {
     private javax.swing.JButton EntryButton;
     private javax.swing.JButton RefreshButton;
     private javax.swing.JButton SearchButton;
+    private javax.swing.JPanel SearchPanel;
     private javax.swing.JTextField SearchTextField;
     private javax.swing.JScrollPane StudentScrollPane;
     private javax.swing.JTable StudentTable;
+    private javax.swing.JPanel TablePanel;
     private javax.swing.JLabel TitleLabel;
+    private javax.swing.JPanel TitlePanel;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 

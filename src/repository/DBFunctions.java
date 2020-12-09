@@ -1,10 +1,11 @@
 package repository;
 
 import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import models.Branch;
+import models.TimeTable;
 
 /**
  *
@@ -15,7 +16,7 @@ public class DBFunctions {
     static Connection conn = new DBConnection().connect();
 
     public static ArrayList<String> loadCourses() {
-        ArrayList<String> courseList = new ArrayList<String>();
+        ArrayList<String> courseList = new ArrayList<>();
         try {
             String sql_query = "SELECT * FROM course";
             Statement st = conn.createStatement();
@@ -29,16 +30,16 @@ public class DBFunctions {
         return courseList;
     }
 
-    public static ArrayList<String> loadBranches(String course) {
-        ArrayList<String> branchList = new ArrayList<String>();
+    public static ArrayList<Branch> loadBranches(String course) {
+        ArrayList<Branch> branchList = new ArrayList<>();
         try {
-            String sql_query = "SELECT * FROM branch WHERE course LIKE ?";
-            String cond = "%" + course + "%";
-            PreparedStatement stmt = conn.prepareStatement(sql_query);
-            stmt.setString(1, cond);
-            ResultSet rs = stmt.executeQuery();
+            String sql_query = "SELECT * FROM branch WHERE course LIKE '%" + course + "%'";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(sql_query);
+            Branch branch;
             while (rs.next()) {
-                branchList.add(rs.getString("title"));
+                branch = new Branch(rs.getString("course"), rs.getString("title"), rs.getString("initial"));
+                branchList.add(branch);
             }
         } catch (Exception e) {
             System.out.println(e);
@@ -61,18 +62,67 @@ public class DBFunctions {
         return fees;
     }
 
-    public static int getSemester(String branch) {
-        int sem = 0;
+    public static ArrayList<String> getSemester(String course, String branch) {
+        ArrayList<String> sem = new ArrayList<>();
         try {
-            String sql_query = "SELECT * FROM branch WHERE title LIKE '%" + branch + "%'";
+            String sql_query = "SELECT * FROM semester WHERE course LIKE '%" + course + "%' "
+                    + "AND branch LIKE '%" + branch + "%'";
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(sql_query);
-            if (rs.next()) {
-                sem = rs.getInt("semester");
+            while (rs.next()) {
+                sem.add(rs.getString("title"));
             }
         } catch (Exception e) {
             System.out.println(e);
         }
         return sem;
+    }
+
+    public static ArrayList<String> getSubjects(String course) {
+        ArrayList<String> subjectList = new ArrayList<>();
+        try {
+            String sql_query = "SELECT * FROM subject WHERE course LIKE '%" + course + "%'";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql_query);
+            while (rs.next()) {
+                subjectList.add(rs.getString("title"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return subjectList;
+    }
+
+    public static ArrayList<String> getFaculty(String course) {
+        ArrayList<String> facList = new ArrayList<>();
+        try {
+            String sql_query = "SELECT * FROM faculty WHERE course LIKE '%" + course + "%'";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql_query);
+            while (rs.next()) {
+                facList.add(rs.getString("name"));
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return facList;
+    }
+
+    public static ArrayList<TimeTable> getTimeTables(String course) {
+        ArrayList<TimeTable> timeTables = new ArrayList<>();
+        try {
+            String sql_query = "SELECT * FROM time_table";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(sql_query);
+            while (rs.next()) {
+                TimeTable timeTable = new TimeTable(rs.getString("id"), rs.getString("subject"), rs.getString("faculty"),
+                        rs.getString("course"), rs.getString("branch"), rs.getString("semester"), rs.getString("section"),
+                        rs.getString("day"), rs.getString("time"), rs.getString("timestamp"));
+                timeTables.add(timeTable);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return timeTables;
     }
 }

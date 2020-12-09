@@ -25,21 +25,21 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
 
     static String application_no = null;
 
-    Connection con = new DBConnection().connect();
+    private final Connection con = new DBConnection().connect();
 
-    ArrayList<Student> student_list = new ArrayList<Student>();
+    ArrayList<Student> student_list = new ArrayList<>();
 
     private void customizeComponents() {
+        setLocationRelativeTo(this);
         StudentTable.getTableHeader().setFont(new java.awt.Font("Tahoma", 1, 12));
         StudentTable.getTableHeader().setForeground(new java.awt.Color(0, 150, 150));
     }
 
     private ArrayList<Student> retrieveData() {
         String qry = null;
-        student_list.clear();
+        ArrayList<Student> stu_list = new ArrayList<>();
 
         try {
-
             qry = "SELECT name, roll_no, application_no, registration_no, "
                     + "mother_name, mother_occupation, address, father_name, father_occupation, "
                     + "sex, dob, phone, email, photo, date_of_application, course, branch, batch, "
@@ -57,16 +57,17 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
                         rs.getBytes("photo"), rs.getString("date_of_application"), rs.getString("course"), rs.getString("branch"),
                         rs.getInt("batch"), rs.getString("semester"), rs.getInt("year_of_passing"), rs.getBoolean("hostel"), rs.getBoolean("library"),
                         rs.getString("qualification"), rs.getString("university"), rs.getString("quota"), rs.getString("marks"), rs.getString("status"));
-                student_list.add(student);
+                stu_list.add(student);
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        return student_list;
+        return stu_list;
     }
 
     private void fillTable() {
+        student_list.clear();
         student_list = retrieveData();
         DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
         model.setRowCount(0);
@@ -82,9 +83,9 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
         }
     }
 
-    public StudentApplicationsScreen() {
+    public StudentApplicationsScreen(Role role) {
+        this.role = role;
         initComponents();
-        setLocationRelativeTo(this);
         customizeComponents();
         fillTable();
     }
@@ -93,10 +94,14 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        TitlePanel = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         SearchTextField = new javax.swing.JTextField();
         SearchButton = new javax.swing.JButton();
+        RefreshButton = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         StudentScrollPane = new javax.swing.JScrollPane();
         StudentTable = new javax.swing.JTable();
 
@@ -104,15 +109,34 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("constants/strings"); // NOI18N
         setTitle(bundle.getString("APP_NAME")); // NOI18N
         setIconImage(icon.getImage());
+        setMaximumSize(new java.awt.Dimension(1200, 800));
         setMinimumSize(new java.awt.Dimension(1200, 800));
-        setPreferredSize(new java.awt.Dimension(1200, 800));
         setResizable(false);
 
+        TitlePanel.setBackground(new java.awt.Color(51, 51, 51));
+
         TitleLabel.setFont(TitleLabel.getFont().deriveFont(TitleLabel.getFont().getStyle() | java.awt.Font.BOLD, TitleLabel.getFont().getSize()+29));
-        TitleLabel.setForeground(new java.awt.Color(60, 185, 145));
+        TitleLabel.setForeground(new java.awt.Color(255, 255, 255));
         TitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        TitleLabel.setText("STUDENT APPLICATIONS");
+        TitleLabel.setText("STUDENT APPLICATION");
         TitleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        javax.swing.GroupLayout TitlePanelLayout = new javax.swing.GroupLayout(TitlePanel);
+        TitlePanel.setLayout(TitlePanelLayout);
+        TitlePanelLayout.setHorizontalGroup(
+            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, TitlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TitleLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 1180, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        TitlePanelLayout.setVerticalGroup(
+            TitlePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(TitlePanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(TitleLabel)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 150, 150));
@@ -127,9 +151,47 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
             }
         });
 
+        RefreshButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        RefreshButton.setForeground(new java.awt.Color(0, 150, 150));
+        RefreshButton.setText("Refresh");
+        RefreshButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        RefreshButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                RefreshButtonMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(SearchTextField)
+                .addGap(18, 18, 18)
+                .addComponent(SearchButton)
+                .addGap(18, 18, 18)
+                .addComponent(RefreshButton)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(SearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(RefreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
         StudentScrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Students", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(0, 150, 150))); // NOI18N
         StudentScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         StudentScrollPane.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        StudentScrollPane.setMinimumSize(new java.awt.Dimension(462, 425));
         StudentScrollPane.setRowHeaderView(null);
 
         StudentTable.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
@@ -140,7 +202,15 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
             new String [] {
                 "Roll No.", "Name", "Father's Name", "Course", "Branch", "Semester"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         StudentTable.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         StudentTable.setShowGrid(true);
         StudentTable.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -150,37 +220,37 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
         });
         StudentScrollPane.setViewportView(StudentTable);
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(StudentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(StudentScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(TitleLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 1180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(TitlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(StudentScrollPane)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 1024, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
-                        .addComponent(SearchButton)))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(TitleLabel)
+                .addComponent(TitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(SearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(StudentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 659, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -189,7 +259,7 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
 
     private void SearchButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchButtonMousePressed
 
-        String val = SearchTextField.getText().toString();
+        String val = SearchTextField.getText();
         student_list.clear();
         try {
 
@@ -215,9 +285,8 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
             DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
             model.setRowCount(0); // Empty/clear the table
 
-            if (student_list.size() == 0) {
+            if (student_list.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No Records Found!");
-
             } else {
                 Object[] row = new Object[6];
                 for (int i = 0; i < student_list.size(); i++) {
@@ -241,8 +310,12 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
         String roll_no = student_list.get(ind).getRollNo();
         StudentEntryForm entryForm = new StudentEntryForm(role);
         entryForm.setVisible(true);
-        entryForm.showItemToFields(ind, roll_no);
+        entryForm.showItemToFields(roll_no);
     }//GEN-LAST:event_StudentTableMousePressed
+
+    private void RefreshButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RefreshButtonMousePressed
+        fillTable();
+    }//GEN-LAST:event_RefreshButtonMousePressed
 
     public static void main(String args[]) {
 
@@ -252,19 +325,21 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(StudentPortal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StudentApplicationsScreen().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new StudentApplicationsScreen(role).setVisible(true);
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton RefreshButton;
     private javax.swing.JButton SearchButton;
     private javax.swing.JTextField SearchTextField;
     private javax.swing.JScrollPane StudentScrollPane;
     private javax.swing.JTable StudentTable;
     private javax.swing.JLabel TitleLabel;
+    private javax.swing.JPanel TitlePanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }
