@@ -52,7 +52,7 @@ public class StudentApplicationForm extends javax.swing.JFrame {
         return "STUDENT" + app_no;
     }
 
-    private Student retrieveData(String roll_no) {
+    private Student retrieveData(String reg_no) {
         String qry = null;
         Student student = null;
 
@@ -61,7 +61,7 @@ public class StudentApplicationForm extends javax.swing.JFrame {
                     + "mother_name, mother_occupation, address, father_name, father_occupation, "
                     + "sex, dob, phone, email, photo, date_of_application, course, branch, batch, "
                     + "semester, year_of_passing, hostel, library, qualification, university, "
-                    + "quota, marks, status FROM student WHERE roll_no=" + roll_no;
+                    + "quota, marks, status FROM student WHERE roll_no=" + reg_no;
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(qry);
 
@@ -96,7 +96,13 @@ public class StudentApplicationForm extends javax.swing.JFrame {
                 brArrayList.add(branches.get(i).getInit());
             }
         }
-        BranchComboBox.setModel(new DefaultComboBoxModel<String>(brArrayList.toArray(new String[0])));
+        BranchComboBox.setModel(new DefaultComboBoxModel<>(brArrayList.toArray(new String[0])));
+
+        ArrayList<String> semList = DBFunctions.getSemester(data.getCourse(), data.getBranch());
+        if (semList.isEmpty()) {
+            semList.add("Select");
+        }
+        SemesterComboBox.setModel(new DefaultComboBoxModel<>(semList.toArray(new String[0])));
 
         ApplNoTextField.setText(data.getApplicationNo());
         RolllNoTextField.setText(data.getRollNo());
@@ -149,26 +155,81 @@ public class StudentApplicationForm extends javax.swing.JFrame {
     private void clearFields() {
         ApplNoTextField.setText(generateAppNo());
         RegNoTextField.setText(generateRegNo());
-        RolllNoTextField.setText("");
+        RolllNoTextField.setText(null);
         NameTextField.setText(null);
-        DOBChooser.setDate(null);
-        MotherNameTextField.setText("");
-        MotherOccupationTextField.setText("");
-        FatherNameTextField.setText("");
-        FatherOccupationTextField.setText("");
-        AddressTextArea.setText("");
-        PhoneTextField.setText("");
-        EmailTextField.setText("");
+        MotherNameTextField.setText(null);
+        MotherOccupationTextField.setText(null);
+        FatherNameTextField.setText(null);
+        FatherOccupationTextField.setText(null);
+        AddressTextArea.setText(null);
+        PhoneTextField.setText(null);
+        EmailTextField.setText(null);
         BatchYearChooser.setYear(2020);
         PassingYearChooser.setYear(2020);
         DateChooser.setDate(date);
-        QualificationTextField.setText("");
-        UniversityTextField.setText("");
-        MarksTextField.setText("");
+        QualificationTextField.setText(null);
+        UniversityTextField.setText(null);
+        MarksTextField.setText(null);
+
+        SexComboBox.setSelectedItem(null);
+        DOBChooser.setDate(null);
+
+        CourseComboBox.setSelectedItem(null);
+        BranchComboBox.setSelectedItem(null);
+        SemesterComboBox.setSelectedItem(null);
+        QuotaComboBox.setSelectedItem(null);
+        StatusComboBox.setSelectedItem(null);
 
         photopath = null;
         PhotoLabel.setIcon(null);
+    }
 
+    private boolean _checkInputFields() {
+        boolean isValid = false;
+        if (NameTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Name Field Is Required!!!");
+        } else if (DOBChooser.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "DOB Field Is Required!!!");
+        } else if (SexComboBox.getSelectedItem() == null || SexComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Sex Field Is Required!!!");
+        } else if (MotherNameTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Mother's Name Field Is Required!!!");
+        } else if (MotherOccupationTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Mother's Occupation Field Is Required!!!");
+        } else if (FatherNameTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Father's Name Field Is Required!!!");
+        } else if (FatherOccupationTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Father's Occupation Field Is Required!!!");
+        } else if (AddressTextArea.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Address Field Is Required!!!");
+        } else if (PhoneTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Phone Field Is Required!!!");
+        } else if (EmailTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Email Field Is Required!!!");
+        } else if (CourseComboBox.getSelectedItem() == null || CourseComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Course Field Is Required!!!");
+        } else if (BranchComboBox.getSelectedItem() == null || BranchComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Branch Field Is Required!!!");
+        } else if (SemesterComboBox.getSelectedItem() == null || SemesterComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Semester Field Is Required!!!");
+        } else if (BatchYearChooser == null) {
+            JOptionPane.showMessageDialog(null, "Batch Field Is Required!!!");
+        } else if (PassingYearChooser.getValue() == 0) {
+            JOptionPane.showMessageDialog(null, "YOP Field Is Required!!!");
+        } else if (QualificationTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Qualification Field Is Required!!!");
+        } else if (UniversityTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "University Field Is Required!!!");
+        } else if (QualificationTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Qualification Field Is Required!!!");
+        } else if (MarksTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Marks Field Is Required!!!");
+        } else if (QuotaComboBox.getSelectedItem() == null || QuotaComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Quota Field Is Required!!!");
+        } else {
+            isValid = true;
+        }
+        return isValid;
     }
 
     public StudentApplicationForm(Role role) {
@@ -240,6 +301,7 @@ public class StudentApplicationForm extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         QuotaComboBox = new javax.swing.JComboBox<>();
         StatusComboBox = new javax.swing.JComboBox<>();
+        SemLoadingButton = new javax.swing.JButton();
         ButtonPanel = new javax.swing.JPanel();
         SaveButton = new javax.swing.JButton();
         ClearButton = new javax.swing.JButton();
@@ -248,7 +310,6 @@ public class StudentApplicationForm extends javax.swing.JFrame {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("constants/strings"); // NOI18N
         setTitle(bundle.getString("APP_NAME")); // NOI18N
         setIconImage(icon.getImage());
-        setMaximumSize(new java.awt.Dimension(1200, 800));
         setMinimumSize(new java.awt.Dimension(1200, 800));
         setResizable(false);
 
@@ -400,7 +461,7 @@ public class StudentApplicationForm extends javax.swing.JFrame {
         BranchComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
         SemesterComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        SemesterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th" }));
+        SemesterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
         jLabel18.setFont(jLabel18.getFont().deriveFont(jLabel18.getFont().getStyle() | java.awt.Font.BOLD, jLabel18.getFont().getSize()+3));
         jLabel18.setForeground(new java.awt.Color(0, 150, 150));
@@ -493,6 +554,15 @@ public class StudentApplicationForm extends javax.swing.JFrame {
         StatusComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         StatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT", "CONFIRM", "PENDING", "CANCELLED" }));
 
+        SemLoadingButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SemLoadingButton.setForeground(new java.awt.Color(0, 150, 150));
+        SemLoadingButton.setText("Load");
+        SemLoadingButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                SemLoadingButtonMousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout BodyPanelLayout = new javax.swing.GroupLayout(BodyPanel);
         BodyPanel.setLayout(BodyPanelLayout);
         BodyPanelLayout.setHorizontalGroup(
@@ -527,12 +597,18 @@ public class StudentApplicationForm extends javax.swing.JFrame {
                                 .addComponent(jLabel12)
                                 .addGap(37, 37, 37)
                                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(AddressScrollPane)
                                     .addGroup(BodyPanelLayout.createSequentialGroup()
-                                        .addComponent(CourseComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(CourseLoadingButton)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(AddressScrollPane))))
+                                        .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addGroup(BodyPanelLayout.createSequentialGroup()
+                                                .addComponent(SemesterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(SemLoadingButton))
+                                            .addGroup(BodyPanelLayout.createSequentialGroup()
+                                                .addComponent(CourseComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                                .addComponent(CourseLoadingButton)))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(10, 10, 10)
                         .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BodyPanelLayout.createSequentialGroup()
@@ -618,12 +694,11 @@ public class StudentApplicationForm extends javax.swing.JFrame {
                                                 .addGap(50, 50, 50)))
                                         .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(BatchYearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(SemesterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jLabel2))
-                                .addGap(244, 244, 244)
+                                .addGap(232, 232, 232)
                                 .addComponent(HostelCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 301, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 313, Short.MAX_VALUE)
                         .addComponent(jLabel19)
                         .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(BodyPanelLayout.createSequentialGroup()
@@ -712,7 +787,8 @@ public class StudentApplicationForm extends javax.swing.JFrame {
                                     .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(SemesterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(HostelCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(HostelCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(SemLoadingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
                                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -824,48 +900,9 @@ public class StudentApplicationForm extends javax.swing.JFrame {
 
     }//GEN-LAST:event_PhotoChooserButtonActionPerformed
 
-    private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
-
-        if (NameTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Name Field Is Required!!!");
-        } else if (DOBChooser.getDate() == null) {
-            JOptionPane.showMessageDialog(null, "DOB Field Is Required!!!");
-        } else if (SexComboBox.getSelectedItem() == null || SexComboBox.getSelectedItem() == "Select") {
-            JOptionPane.showMessageDialog(null, "Sex Field Is Required!!!");
-        } else if (MotherNameTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Mother's Name Field Is Required!!!");
-        } else if (MotherOccupationTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Mother's Occupation Field Is Required!!!");
-        } else if (FatherNameTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Father's Name Field Is Required!!!");
-        } else if (FatherOccupationTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Father's Occupation Field Is Required!!!");
-        } else if (AddressTextArea.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Address Field Is Required!!!");
-        } else if (PhoneTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Phone Field Is Required!!!");
-        } else if (EmailTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Email Field Is Required!!!");
-        } else if (CourseComboBox.getSelectedItem() == null || CourseComboBox.getSelectedItem() == "Select") {
-            JOptionPane.showMessageDialog(null, "Course Field Is Required!!!");
-        } else if (BranchComboBox.getSelectedItem() == null || BranchComboBox.getSelectedItem() == "Select") {
-            JOptionPane.showMessageDialog(null, "Branch Field Is Required!!!");
-        } else if (SemesterComboBox.getSelectedItem() == null || SemesterComboBox.getSelectedItem() == "Select") {
-            JOptionPane.showMessageDialog(null, "Semester Field Is Required!!!");
-        } else if (BatchYearChooser == null) {
-            JOptionPane.showMessageDialog(null, "Batch Field Is Required!!!");
-        } else if (PassingYearChooser.getValue() == 0) {
-            JOptionPane.showMessageDialog(null, "YOP Field Is Required!!!");
-        } else if (QualificationTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Qualification Field Is Required!!!");
-        } else if (UniversityTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "University Field Is Required!!!");
-        } else if (QualificationTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Qualification Field Is Required!!!");
-        } else if (MarksTextField.getText().isBlank()) {
-            JOptionPane.showMessageDialog(null, "Marks Field Is Required!!!");
-        } else if (photopath == null) {
-            JOptionPane.showMessageDialog(null, "Photo Field Is Required!!!");
+    private void _saveStudentData() {
+        if (photopath == null) {
+            JOptionPane.showMessageDialog(null, "Photo Is Required!!!");
         } else {
             final String insert_sql = "INSERT INTO student(name, roll_no, application_no, registration_no, "
                     + "mother_name, mother_occupation, address, father_name, father_occupation, sex, dob, phone, email,"
@@ -934,18 +971,26 @@ public class StudentApplicationForm extends javax.swing.JFrame {
                 int i = ps.executeUpdate();
 
                 if (i >= 1) {
-                    JOptionPane.showMessageDialog(null, "Student Inserted Succussfully. You Registration No. is [" + RegNoTextField.getText()
-                            + "]. Kindly Note & Remember Your Application No.");
+                    JOptionPane.showMessageDialog(null, "Your application is submitted. Your Registration No. is [" + RegNoTextField.getText() + "].", "Success", 1);
                     clearFields();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Student insertion failed to database...");
+                    JOptionPane.showMessageDialog(null, "Insertion Failed", "Error", 0);
                 }
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Student insertion failed " + e);
                 System.out.println(e);
+                JOptionPane.showMessageDialog(null, "Insertion Failed", "Error", 0);    
             }
         }
+    }
 
+    private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
+
+        if (_checkInputFields()) {
+            int choice = JOptionPane.showConfirmDialog(null, "Do You want submit application form?", "Confirm", 0, 3);
+            if (choice == 0) {
+                _saveStudentData();
+            }
+        }
     }//GEN-LAST:event_SaveButtonActionPerformed
 
     private void ClearButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClearButtonMousePressed
@@ -976,6 +1021,20 @@ public class StudentApplicationForm extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_BranchLoadingButtonMousePressed
+
+    private void SemLoadingButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SemLoadingButtonMousePressed
+        if (CourseComboBox.getSelectedItem() == null || CourseComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Select a course first.");
+        } else if (BranchComboBox.getSelectedItem() == null || BranchComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Select a branch first.");
+        } else {
+            ArrayList<String> semList = DBFunctions.getSemester(CourseComboBox.getSelectedItem().toString(), BranchComboBox.getSelectedItem().toString());
+            if (semList.isEmpty()) {
+                semList.add("Select");
+            }
+            SemesterComboBox.setModel(new DefaultComboBoxModel<>(semList.toArray(new String[0])));
+        }
+    }//GEN-LAST:event_SemLoadingButtonMousePressed
 
     public static void main(String args[]) {
 
@@ -1022,7 +1081,9 @@ public class StudentApplicationForm extends javax.swing.JFrame {
     private javax.swing.JTextField RegNoTextField;
     private javax.swing.JTextField RolllNoTextField;
     private javax.swing.JButton SaveButton;
+    private javax.swing.JButton SemLoadingButton;
     private javax.swing.JComboBox<String> SemesterComboBox;
+    private javax.swing.JButton SemesterLoadingButton;
     private javax.swing.JComboBox<String> SexComboBox;
     private javax.swing.JComboBox<String> StatusComboBox;
     private javax.swing.JLabel TitleLabel;

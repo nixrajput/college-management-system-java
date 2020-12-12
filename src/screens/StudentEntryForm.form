@@ -155,13 +155,19 @@
                                   <Component id="jLabel12" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace min="-2" pref="37" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
+                                      <Component id="AddressScrollPane" max="32767" attributes="0"/>
                                       <Group type="102" alignment="0" attributes="0">
-                                          <Component id="CourseComboBox" min="-2" pref="165" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                                              <Component id="SemesterComboBox" alignment="0" max="32767" attributes="0"/>
+                                              <Component id="CourseComboBox" alignment="0" pref="165" max="32767" attributes="0"/>
+                                          </Group>
                                           <EmptySpace max="-2" attributes="0"/>
-                                          <Component id="CourseLoadingButton" min="-2" max="-2" attributes="0"/>
+                                          <Group type="103" groupAlignment="0" attributes="0">
+                                              <Component id="CourseLoadingButton" min="-2" max="-2" attributes="0"/>
+                                              <Component id="SemLoadingButton" min="-2" max="-2" attributes="0"/>
+                                          </Group>
                                           <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                                       </Group>
-                                      <Component id="AddressScrollPane" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                           </Group>
@@ -256,8 +262,8 @@
                                   </Group>
                                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
-                                      <Component id="QualificationTextField" min="-2" pref="260" max="-2" attributes="0"/>
                                       <Component id="UniversityTextField" alignment="0" min="-2" pref="260" max="-2" attributes="0"/>
+                                      <Component id="QualificationTextField" alignment="0" min="-2" pref="260" max="-2" attributes="0"/>
                                   </Group>
                                   <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                               </Group>
@@ -275,9 +281,8 @@
                                               </Group>
                                           </Group>
                                           <Group type="103" groupAlignment="0" attributes="0">
-                                              <Component id="BatchYearChooser" min="-2" pref="165" max="-2" attributes="0"/>
-                                              <Component id="SemesterComboBox" min="-2" pref="165" max="-2" attributes="0"/>
                                               <Component id="DateChooser" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
+                                              <Component id="BatchYearChooser" alignment="0" min="-2" pref="165" max="-2" attributes="0"/>
                                           </Group>
                                       </Group>
                                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -402,6 +407,7 @@
                                       <Group type="103" groupAlignment="3" attributes="0">
                                           <Component id="jLabel18" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                                           <Component id="SemesterComboBox" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                                          <Component id="SemLoadingButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                                       </Group>
                                   </Group>
                                   <EmptySpace type="separate" max="-2" attributes="0"/>
@@ -841,16 +847,8 @@
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="9">
+              <StringArray count="1">
                 <StringItem index="0" value="Select"/>
-                <StringItem index="1" value="1st"/>
-                <StringItem index="2" value="2nd"/>
-                <StringItem index="3" value="3rd"/>
-                <StringItem index="4" value="4th"/>
-                <StringItem index="5" value="5th"/>
-                <StringItem index="6" value="6th"/>
-                <StringItem index="7" value="7th"/>
-                <StringItem index="8" value="8th"/>
               </StringArray>
             </Property>
           </Properties>
@@ -1117,6 +1115,20 @@
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
+        </Component>
+        <Component class="javax.swing.JButton" name="SemLoadingButton">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+              <Font name="Tahoma" size="12" style="1"/>
+            </Property>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="96" green="96" red="0" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Load"/>
+          </Properties>
+          <Events>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="SemLoadingButtonMousePressed"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>

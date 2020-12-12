@@ -40,7 +40,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
     String photopath = null;
     Date date = new Date();
 
-    Connection con = new DBConnection().connect();
+    private final Connection con = new DBConnection().connect();
 
     private String generateAppNo() {
         String app_no = RandomGenerator.getNumericString(5);
@@ -85,19 +85,25 @@ public class StudentEntryForm extends javax.swing.JFrame {
     public void showItemToFields(String reg_no) {
         final Student data = retrieveData(reg_no);
         ArrayList<String> courses = DBFunctions.loadCourses();
-        CourseComboBox.setModel(new DefaultComboBoxModel<String>(courses.toArray(new String[0])));
+        CourseComboBox.setModel(new DefaultComboBoxModel<>(courses.toArray(new String[0])));
 
         ArrayList<Branch> branches = DBFunctions.loadBranches(data.getCourse());
-        ArrayList<String> brArrayList = new ArrayList<String>();
+        ArrayList<String> brArrayList = new ArrayList<>();
 
-        if (branches.size() == 0) {
+        if (branches.isEmpty()) {
             brArrayList.add("Select");
         } else {
             for (int i = 0; i < branches.size(); i++) {
                 brArrayList.add(branches.get(i).getInit());
             }
         }
-        BranchComboBox.setModel(new DefaultComboBoxModel<String>(brArrayList.toArray(new String[0])));
+        BranchComboBox.setModel(new DefaultComboBoxModel<>(brArrayList.toArray(new String[0])));
+
+        ArrayList<String> semList = DBFunctions.getSemester(data.getCourse(), data.getBranch());
+        if (semList.isEmpty()) {
+            semList.add("Select");
+        }
+        SemesterComboBox.setModel(new DefaultComboBoxModel<>(semList.toArray(new String[0])));
 
         ApplNoTextField.setText(data.getApplicationNo());
         RolllNoTextField.setText(data.getRollNo());
@@ -110,9 +116,9 @@ public class StudentEntryForm extends javax.swing.JFrame {
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
             dob = sdf.parse(data.getDob());
             DOBChooser.setDate(dob);
-            Date date = null;
-            date = sdf.parse(data.getDate_of_application());
-            DateChooser.setDate(date);
+            Date _date;
+            _date = sdf.parse(data.getDate_of_application());
+            DateChooser.setDate(_date);
         } catch (ParseException e) {
             System.out.println(e);
         }
@@ -140,79 +146,98 @@ public class StudentEntryForm extends javax.swing.JFrame {
     }
 
     private void customizeComponents() {
+        setLocationRelativeTo(this);
         DateChooser.setDate(date);
         ApplNoTextField.setText(generateAppNo());
         RegNoTextField.setText(generateRegNo());
-//        if (role != Role.ADMIN) {
-//            SaveButton.setEnabled(false);
-//            UpdateButton.setEnabled(false);
-//            DeleteButton.setEnabled(false);
-//
-//            PhotoChooserButton.setEnabled(false);
-//            CourseLoadingButton.setEnabled(false);
-//            BranchLoadingButton.setEnabled(false);
-//
-//            NameTextField.setEditable(false);
-//            MotherNameTextField.setEditable(false);
-//            MotherOccupationTextField.setEditable(false);
-//            FatherNameTextField.setEditable(false);
-//            FatherOccupationTextField.setEditable(false);
-//            AddressTextArea.setEditable(false);
-//            PhoneTextField.setEditable(false);
-//            EmailTextField.setEditable(false);
-//            QualificationTextField.setEditable(false);
-//            UniversityTextField.setEditable(false);
-//            MarksTextField.setEditable(false);
-//
-//            DOBChooser.setEnabled(false);
-//            BatchYearChooser.setEnabled(false);
-//            PassingYearChooser.setEnabled(false);
-//            DateChooser.setEnabled(false);
-//
-//            SexComboBox.setEnabled(false);
-//            CourseComboBox.setEnabled(false);
-//            BranchComboBox.setEnabled(false);
-//            SemesterComboBox.setEnabled(false);
-//            QuotaComboBox.setEnabled(false);
-//            StatusComboBox.setEnabled(false);
-//
-//            HostelCheckBox.setEnabled(false);
-//            LibraryCheckBox.setEnabled(false);
-//
-//        }
     }
 
     private void clearFields() {
         ApplNoTextField.setText(generateAppNo());
         RegNoTextField.setText(generateRegNo());
-        RolllNoTextField.setText("");
+        RolllNoTextField.setText(null);
         NameTextField.setText(null);
-        DOBChooser.setDate(null);
-        MotherNameTextField.setText("");
-        MotherOccupationTextField.setText("");
+        MotherNameTextField.setText(null);
+        MotherOccupationTextField.setText(null);
         FatherNameTextField.setText("");
-        FatherOccupationTextField.setText("");
-        AddressTextArea.setText("");
-        PhoneTextField.setText("");
-        EmailTextField.setText("");
+        FatherOccupationTextField.setText(null);
+        AddressTextArea.setText(null);
+        PhoneTextField.setText(null);
+        EmailTextField.setText(null);
         BatchYearChooser.setYear(2020);
         PassingYearChooser.setYear(2020);
         photopath = null;
         PhotoLabel.setIcon(null);
         DateChooser.setDate(date);
-        QualificationTextField.setText("");
-        UniversityTextField.setText("");
-        MarksTextField.setText("");
+        QualificationTextField.setText(null);
+        UniversityTextField.setText(null);
+        MarksTextField.setText(null);
+
+        SexComboBox.setSelectedItem(null);
+        DOBChooser.setDate(null);
+
+        CourseComboBox.setSelectedItem(null);
+        BranchComboBox.setSelectedItem(null);
+        SemesterComboBox.setSelectedItem(null);
+        QuotaComboBox.setSelectedItem(null);
+        StatusComboBox.setSelectedItem(null);
 
         photopath = null;
         PhotoLabel.setIcon(null);
+    }
+
+    private boolean _checkInputFields() {
+        boolean isValid = false;
+        if (NameTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Name Field Is Required!!!");
+        } else if (DOBChooser.getDate() == null) {
+            JOptionPane.showMessageDialog(null, "DOB Field Is Required!!!");
+        } else if (SexComboBox.getSelectedItem() == null || SexComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Sex Field Is Required!!!");
+        } else if (MotherNameTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Mother's Name Field Is Required!!!");
+        } else if (MotherOccupationTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Mother's Occupation Field Is Required!!!");
+        } else if (FatherNameTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Father's Name Field Is Required!!!");
+        } else if (FatherOccupationTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Father's Occupation Field Is Required!!!");
+        } else if (AddressTextArea.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Address Field Is Required!!!");
+        } else if (PhoneTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Phone Field Is Required!!!");
+        } else if (EmailTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Email Field Is Required!!!");
+        } else if (CourseComboBox.getSelectedItem() == null || CourseComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Course Field Is Required!!!");
+        } else if (BranchComboBox.getSelectedItem() == null || BranchComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Branch Field Is Required!!!");
+        } else if (SemesterComboBox.getSelectedItem() == null || SemesterComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Semester Field Is Required!!!");
+        } else if (BatchYearChooser == null) {
+            JOptionPane.showMessageDialog(null, "Batch Field Is Required!!!");
+        } else if (PassingYearChooser.getValue() == 0) {
+            JOptionPane.showMessageDialog(null, "YOP Field Is Required!!!");
+        } else if (QualificationTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Qualification Field Is Required!!!");
+        } else if (UniversityTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "University Field Is Required!!!");
+        } else if (QualificationTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Qualification Field Is Required!!!");
+        } else if (MarksTextField.getText().isBlank()) {
+            JOptionPane.showMessageDialog(null, "Marks Field Is Required!!!");
+        } else if (QuotaComboBox.getSelectedItem() == null || QuotaComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Quota Field Is Required!!!");
+        } else {
+            isValid = true;
+        }
+        return isValid;
     }
 
     public StudentEntryForm(Role role) {
         this.role = role;
         initComponents();
         customizeComponents();
-        setLocationRelativeTo(this);
     }
 
     @SuppressWarnings("unchecked")
@@ -278,6 +303,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
         jLabel22 = new javax.swing.JLabel();
         QuotaComboBox = new javax.swing.JComboBox<>();
         StatusComboBox = new javax.swing.JComboBox<>();
+        SemLoadingButton = new javax.swing.JButton();
         ButtonPanel = new javax.swing.JPanel();
         SaveButton = new javax.swing.JButton();
         UpdateButton = new javax.swing.JButton();
@@ -440,7 +466,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
         BranchComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
         SemesterComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
-        SemesterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select", "1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th" }));
+        SemesterComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select" }));
 
         jLabel18.setFont(jLabel18.getFont().deriveFont(jLabel18.getFont().getStyle() | java.awt.Font.BOLD, jLabel18.getFont().getSize()+3));
         jLabel18.setForeground(new java.awt.Color(0, 150, 150));
@@ -533,6 +559,15 @@ public class StudentEntryForm extends javax.swing.JFrame {
         StatusComboBox.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         StatusComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "SELECT", "CONFIRM", "PENDING", "CANCELLED" }));
 
+        SemLoadingButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        SemLoadingButton.setForeground(new java.awt.Color(0, 150, 150));
+        SemLoadingButton.setText("Load");
+        SemLoadingButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                SemLoadingButtonMousePressed(evt);
+            }
+        });
+
         javax.swing.GroupLayout BodyPanelLayout = new javax.swing.GroupLayout(BodyPanel);
         BodyPanel.setLayout(BodyPanelLayout);
         BodyPanelLayout.setHorizontalGroup(
@@ -567,12 +602,16 @@ public class StudentEntryForm extends javax.swing.JFrame {
                                 .addComponent(jLabel12)
                                 .addGap(37, 37, 37)
                                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(AddressScrollPane)
                                     .addGroup(BodyPanelLayout.createSequentialGroup()
-                                        .addComponent(CourseComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                            .addComponent(SemesterComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(CourseComboBox, javax.swing.GroupLayout.Alignment.LEADING, 0, 165, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(CourseLoadingButton)
-                                        .addGap(0, 0, Short.MAX_VALUE))
-                                    .addComponent(AddressScrollPane))))
+                                        .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(CourseLoadingButton)
+                                            .addComponent(SemLoadingButton))
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
                         .addGap(10, 10, 10)
                         .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, BodyPanelLayout.createSequentialGroup()
@@ -643,8 +682,8 @@ public class StudentEntryForm extends javax.swing.JFrame {
                                     .addComponent(jLabel25))
                                 .addGap(18, 18, 18)
                                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(QualificationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(UniversityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(UniversityTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(QualificationTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(BodyPanelLayout.createSequentialGroup()
                                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -657,9 +696,8 @@ public class StudentEntryForm extends javax.swing.JFrame {
                                                 .addComponent(jLabel3)
                                                 .addGap(50, 50, 50)))
                                         .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(BatchYearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(SemesterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(DateChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(BatchYearChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addComponent(jLabel2))
                                 .addGap(244, 244, 244)
                                 .addComponent(HostelCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -752,7 +790,8 @@ public class StudentEntryForm extends javax.swing.JFrame {
                                             .addComponent(HostelCheckBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                     .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(jLabel18, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(SemesterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                        .addComponent(SemesterComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(SemLoadingButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
                                 .addGroup(BodyPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -897,124 +936,274 @@ public class StudentEntryForm extends javax.swing.JFrame {
 
     private void CourseLoadingButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CourseLoadingButtonMousePressed
         ArrayList<String> courses = DBFunctions.loadCourses();
-        CourseComboBox.setModel(new DefaultComboBoxModel<String>(courses.toArray(new String[0])));
+        CourseComboBox.setModel(new DefaultComboBoxModel<>(courses.toArray(new String[0])));
     }//GEN-LAST:event_CourseLoadingButtonMousePressed
 
     private void BranchLoadingButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_BranchLoadingButtonMousePressed
 
         if (CourseComboBox.getSelectedItem() != null) {
             ArrayList<Branch> branches = DBFunctions.loadBranches(CourseComboBox.getSelectedItem().toString());
-            ArrayList<String> brArrayList = new ArrayList<String>();
+            ArrayList<String> brArrayList = new ArrayList<>();
 
-            if (branches.size() == 0) {
+            if (branches.isEmpty()) {
                 brArrayList.add("Select");
             } else {
                 for (int i = 0; i < branches.size(); i++) {
                     brArrayList.add(branches.get(i).getInit());
                 }
             }
-            BranchComboBox.setModel(new DefaultComboBoxModel<String>(brArrayList.toArray(new String[0])));
+            BranchComboBox.setModel(new DefaultComboBoxModel<>(brArrayList.toArray(new String[0])));
         } else {
             JOptionPane.showMessageDialog(null, "Select a course first.");
         }
 
     }//GEN-LAST:event_BranchLoadingButtonMousePressed
 
+    private void _saveStudentData() {
+        if (photopath == null) {
+            JOptionPane.showMessageDialog(null, "Photo Is Required!!!");
+        } else {
+
+            final String insert_sql = "INSERT INTO student(name, roll_no, application_no, registration_no, "
+                    + "mother_name, mother_occupation, address, father_name, father_occupation, sex, dob, phone, email,"
+                    + "photo, password, date_of_application, course, branch, batch, semester, year_of_passing, hostel, library, "
+                    + "qualification, university, quota, marks, status) "
+                    + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            try {
+                PreparedStatement ps = con.prepareStatement(insert_sql);
+
+                ps.setString(1, NameTextField.getText());
+
+                int batch_year = BatchYearChooser.getYear() % 100;
+                String rand_no = RandomGenerator.getNumericString(3);
+                String roll_no = batch_year + rand_no;
+                ps.setString(2, roll_no);
+
+                ps.setString(3, ApplNoTextField.getText());
+                ps.setString(4, RegNoTextField.getText());
+
+                ps.setString(5, MotherNameTextField.getText());
+                ps.setString(6, MotherOccupationTextField.getText());
+                ps.setString(7, AddressTextArea.getText());
+                ps.setString(8, FatherNameTextField.getText());
+                ps.setString(9, FatherOccupationTextField.getText());
+                ps.setString(10, SexComboBox.getSelectedItem().toString());
+
+                SimpleDateFormat dobFormat = new SimpleDateFormat("dd-MM-yyyy");
+                String dob = dobFormat.format(DOBChooser.getDate());
+                ps.setString(11, dob);
+
+                ps.setString(12, PhoneTextField.getText());
+                ps.setString(13, EmailTextField.getText());
+
+                InputStream photoStream = new FileInputStream(new File(photopath));
+                ps.setBlob(14, photoStream);
+
+                SimpleDateFormat passFormat = new SimpleDateFormat("ddMMyyyy");
+                String pass = passFormat.format(DOBChooser.getDate());
+                ps.setString(15, pass);
+
+                ps.setString(16, dobFormat.format(DateChooser.getDate()));
+                ps.setString(17, CourseComboBox.getSelectedItem().toString());
+                ps.setString(18, BranchComboBox.getSelectedItem().toString());
+                ps.setInt(19, BatchYearChooser.getYear());
+                ps.setString(20, SemesterComboBox.getSelectedItem().toString());
+                ps.setInt(21, PassingYearChooser.getYear());
+
+                if (HostelCheckBox.isSelected()) {
+                    ps.setBoolean(22, true);
+
+                } else {
+                    ps.setBoolean(22, false);
+                }
+
+                if (LibraryCheckBox.isSelected()) {
+                    ps.setBoolean(23, true);
+                } else {
+                    ps.setBoolean(23, false);
+                }
+
+                ps.setString(24, QualificationTextField.getText());
+                ps.setString(25, UniversityTextField.getText());
+                ps.setString(26, QuotaComboBox.getSelectedItem().toString());
+                ps.setDouble(27, Double.parseDouble(MarksTextField.getText()));
+                ps.setString(28, StatusComboBox.getSelectedItem().toString());
+
+                int i = ps.executeUpdate();
+
+                if (i >= 1) {
+                    JOptionPane.showMessageDialog(null, "Student Inserted Succussfully. You Registration No. is [" + RegNoTextField.getText() + "].", "Success", 1);
+                    clearFields();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Insertion Failed", "Error", 0);
+                }
+            } catch (Exception e) {
+                System.err.println(e);
+                JOptionPane.showMessageDialog(null, "Insertion Failed", "Error", 0);
+            }
+        }
+    }
+
+    private void _updateStudentData() {
+        String qry = null;
+        PreparedStatement ps = null;
+        String reg_no = RegNoTextField.getText();
+
+        if (photopath == null) {
+            try {
+                qry = "UPDATE student SET name=?, mother_name=?, mother_occupation=?, "
+                        + "address=?, father_name=?, father_occupation=?, sex=?, "
+                        + "dob=?, phone=?, email=?, date_of_application=?, course=?, "
+                        + "branch=?, batch=?, semester=?, year_of_passing=?, hostel=?, "
+                        + "library=?, qualification=?, university=?, quota=?, marks=?, status=? "
+                        + "WHERE registration_no LIKE '%" + reg_no + "%'";
+                ps = con.prepareStatement(qry);
+
+                ps.setString(1, NameTextField.getText());
+                ps.setString(2, MotherNameTextField.getText());
+                ps.setString(3, MotherOccupationTextField.getText());
+                ps.setString(4, AddressTextArea.getText());
+                ps.setString(5, FatherNameTextField.getText());
+                ps.setString(6, FatherOccupationTextField.getText());
+                ps.setString(7, SexComboBox.getSelectedItem().toString());
+
+                SimpleDateFormat dobFormat = new SimpleDateFormat("dd-MM-yyyy");
+                String dob = dobFormat.format(DOBChooser.getDate());
+                ps.setString(8, dob);
+
+                ps.setString(9, PhoneTextField.getText());
+                ps.setString(10, EmailTextField.getText());
+                ps.setString(11, dobFormat.format(DateChooser.getDate()));
+                ps.setString(12, CourseComboBox.getSelectedItem().toString());
+                ps.setString(13, BranchComboBox.getSelectedItem().toString());
+                ps.setInt(14, BatchYearChooser.getYear());
+                ps.setString(15, SemesterComboBox.getSelectedItem().toString());
+                ps.setInt(16, PassingYearChooser.getYear());
+
+                if (HostelCheckBox.isSelected()) {
+                    ps.setBoolean(17, true);
+                } else {
+                    ps.setBoolean(17, false);
+                }
+
+                if (LibraryCheckBox.isSelected()) {
+                    ps.setBoolean(18, true);
+                } else {
+                    ps.setBoolean(18, false);
+                }
+
+                ps.setString(19, QualificationTextField.getText());
+                ps.setString(20, UniversityTextField.getText());
+                ps.setString(21, QuotaComboBox.getSelectedItem().toString());
+                ps.setDouble(22, Double.parseDouble(MarksTextField.getText()));
+                ps.setString(23, StatusComboBox.getSelectedItem().toString());
+
+                int res = ps.executeUpdate();
+                if (res >= 1) {
+                    JOptionPane.showMessageDialog(null, "Record Updated", "Success", 1);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Updation Failed", "Error", 0);
+                }
+            } catch (Exception e) {
+                System.err.println(e.toString());
+                JOptionPane.showMessageDialog(null, "Updation Failed", "Error", 0);
+            }
+        } else {
+            try {
+                InputStream photoStream = new FileInputStream(new File(photopath));
+
+                qry = "UPDATE student SET name=?, mother_name=?, mother_occupation=?, "
+                        + "address=?, father_name=?, father_occupation=?, sex=?, "
+                        + "dob=?, phone=?, email=?, date_of_application=?, course=?, "
+                        + "branch=?, batch=?, semester=?, year_of_passing=?, hostel=?, "
+                        + "library=?, qualification=?, university=?, quota=?, marks=?, status=?, "
+                        + "photo=? WHERE registration_no LIKE '%" + reg_no + "%'";
+                ps = con.prepareStatement(qry);
+
+                ps.setString(1, NameTextField.getText());
+                ps.setString(2, MotherNameTextField.getText());
+                ps.setString(3, MotherOccupationTextField.getText());
+                ps.setString(4, AddressTextArea.getText());
+                ps.setString(5, FatherNameTextField.getText());
+                ps.setString(6, FatherOccupationTextField.getText());
+                ps.setString(7, SexComboBox.getSelectedItem().toString());
+
+                SimpleDateFormat dobFormat = new SimpleDateFormat("dd-MM-yyyy");
+                String dob = dobFormat.format(DOBChooser.getDate());
+                ps.setString(8, dob);
+
+                ps.setString(9, PhoneTextField.getText());
+                ps.setString(10, EmailTextField.getText());
+                ps.setString(11, dobFormat.format(DateChooser.getDate()));
+                ps.setString(12, CourseComboBox.getSelectedItem().toString());
+                ps.setString(13, BranchComboBox.getSelectedItem().toString());
+                ps.setInt(14, BatchYearChooser.getYear());
+                ps.setString(15, SemesterComboBox.getSelectedItem().toString());
+                ps.setInt(16, PassingYearChooser.getYear());
+
+                if (HostelCheckBox.isSelected()) {
+                    ps.setBoolean(17, true);
+                } else {
+                    ps.setBoolean(17, false);
+                }
+
+                if (LibraryCheckBox.isSelected()) {
+                    ps.setBoolean(18, true);
+                } else {
+                    ps.setBoolean(18, false);
+                }
+
+                ps.setString(19, QualificationTextField.getText());
+                ps.setString(20, UniversityTextField.getText());
+                ps.setString(21, QuotaComboBox.getSelectedItem().toString());
+                ps.setDouble(22, Double.parseDouble(MarksTextField.getText()));
+                ps.setString(23, StatusComboBox.getSelectedItem().toString());
+
+                ps.setBlob(24, photoStream);
+
+                int i = ps.executeUpdate();
+                if (i >= 1) {
+                    JOptionPane.showMessageDialog(null, "Record Updated", "Success", 1);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Updation Failed", "Error", 0);
+                }
+            } catch (Exception e) {
+                System.err.println(e.toString());
+                JOptionPane.showMessageDialog(null, "Updation Failed", "Error", 0);
+            }
+        }
+    }
+
+    private void _deleteStudentData(String reg_no) {
+        try {
+            String qry = "DELETE FROM student WHERE registration_no LIKE '%" + reg_no + "%'";
+
+            PreparedStatement ps = con.prepareStatement(qry);
+            ps.setString(1, RolllNoTextField.getText());
+            int x = ps.executeUpdate();
+            if (x >= 1) {
+                JOptionPane.showMessageDialog(null, "Record Deleted", "Success", 1);
+                clearFields();
+            } else {
+                JOptionPane.showMessageDialog(null, "Deletion Failed", "Error", 0);
+            }
+        } catch (Exception e) {
+            System.err.println(e);
+            JOptionPane.showMessageDialog(null, "Deletion Failed", "Error", 0);
+        }
+    }
+
     private void SaveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveButtonActionPerformed
 
         if (role == Role.ADMIN) {
-            if (NameTextField.getText() != null && DOBChooser != null
-                    && MotherNameTextField.getText() != null && MotherOccupationTextField.getText() != null
-                    && FatherNameTextField.getText() != null && FatherOccupationTextField.getText() != null
-                    && AddressTextArea.getText() != null && PhoneTextField.getText() != null
-                    && EmailTextField.getText() != null && CourseComboBox.getSelectedItem() != null
-                    && BranchComboBox.getSelectedItem() != null && SemesterComboBox.getSelectedItem() != null
-                    && BatchYearChooser != null && PassingYearChooser != null && DateChooser != null
-                    && QualificationTextField.getText() != null && UniversityTextField.getText() != null
-                    && photopath != null) {
-                final String insert_sql = "INSERT INTO student(name, roll_no, application_no, registration_no, "
-                        + "mother_name, mother_occupation, address, father_name, father_occupation, sex, dob, phone, email,"
-                        + "photo, password, date_of_application, course, branch, batch, semester, year_of_passing, hostel, library, "
-                        + "qualification, university, quota, marks, status) "
-                        + "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-                try {
-                    PreparedStatement ps = con.prepareStatement(insert_sql);
-
-                    ps.setString(1, NameTextField.getText().toString());
-
-                    int batch_year = BatchYearChooser.getYear() % 100;
-                    String rand_no = RandomGenerator.getNumericString(3);
-                    String roll_no = batch_year + rand_no;
-                    ps.setString(2, roll_no);
-
-                    ps.setString(3, ApplNoTextField.getText().toString());
-                    ps.setString(4, RegNoTextField.getText().toString());
-
-                    ps.setString(5, MotherNameTextField.getText().toString());
-                    ps.setString(6, MotherOccupationTextField.getText().toString());
-                    ps.setString(7, AddressTextArea.getText().toString());
-                    ps.setString(8, FatherNameTextField.getText().toString());
-                    ps.setString(9, FatherOccupationTextField.getText().toString());
-                    ps.setString(10, SexComboBox.getSelectedItem().toString());
-
-                    SimpleDateFormat dobFormat = new SimpleDateFormat("dd-MM-yyyy");
-                    String dob = dobFormat.format(DOBChooser.getDate());
-                    ps.setString(11, dob);
-
-                    ps.setString(12, PhoneTextField.getText().toString());
-                    ps.setString(13, EmailTextField.getText().toString());
-
-                    InputStream photoStream = new FileInputStream(new File(photopath));
-                    ps.setBlob(14, photoStream);
-
-                    SimpleDateFormat passFormat = new SimpleDateFormat("ddMMyyyy");
-                    String pass = passFormat.format(DOBChooser.getDate());
-                    ps.setString(15, pass);
-
-                    ps.setString(16, dobFormat.format(DateChooser.getDate()));
-                    ps.setString(17, CourseComboBox.getSelectedItem().toString());
-                    ps.setString(18, BranchComboBox.getSelectedItem().toString());
-                    ps.setInt(19, BatchYearChooser.getYear());
-                    ps.setString(20, SemesterComboBox.getSelectedItem().toString());
-                    ps.setInt(21, PassingYearChooser.getYear());
-
-                    if (HostelCheckBox.isSelected()) {
-                        ps.setBoolean(22, true);
-
-                    } else {
-                        ps.setBoolean(22, false);
-                    }
-
-                    if (LibraryCheckBox.isSelected()) {
-                        ps.setBoolean(23, true);
-                    } else {
-                        ps.setBoolean(23, false);
-                    }
-
-                    ps.setString(24, QualificationTextField.getText().toString());
-                    ps.setString(25, UniversityTextField.getText().toString());
-                    ps.setString(26, QuotaComboBox.getSelectedItem().toString());
-                    ps.setDouble(27, Double.parseDouble(MarksTextField.getText().toString()));
-                    ps.setString(28, StatusComboBox.getSelectedItem().toString());
-
-                    int i = ps.executeUpdate();
-
-                    if (i >= 1) {
-                        JOptionPane.showMessageDialog(null, "Student Inserted Succussfully. You Registration No. is [" + RegNoTextField.getText().toString()
-                                + "]. Kindly Note & Remember Your Application No.");
-                        clearFields();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Student insertion failed to database...");
-                    }
-                } catch (Exception e) {
-                    System.err.println(e);
-                    JOptionPane.showMessageDialog(null, "Student insertion failed...");
+            if (_checkInputFields()) {
+                int choice = JOptionPane.showConfirmDialog(null, "Do You want to add this student?", "Confirm", 0, 3);
+                if (choice == 0) {
+                    _saveStudentData();
                 }
-            } else {
-                JOptionPane.showMessageDialog(null, "All Fields are compulsory!");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised!!!");
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
         }
 
     }//GEN-LAST:event_SaveButtonActionPerformed
@@ -1022,152 +1211,14 @@ public class StudentEntryForm extends javax.swing.JFrame {
     private void UpdateButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UpdateButtonMousePressed
 
         if (role == Role.ADMIN) {
-            if (NameTextField.getText() != null && DOBChooser != null
-                    && MotherNameTextField.getText() != null && MotherOccupationTextField.getText() != null
-                    && FatherNameTextField.getText() != null && FatherOccupationTextField.getText() != null
-                    && AddressTextArea.getText() != null && PhoneTextField.getText() != null
-                    && EmailTextField.getText() != null && CourseComboBox.getSelectedItem() != null
-                    && BranchComboBox.getSelectedItem() != null && SemesterComboBox.getSelectedItem() != null
-                    && BatchYearChooser != null && PassingYearChooser != null && DateChooser != null
-                    && QualificationTextField.getText() != null && UniversityTextField.getText() != null) {
-                String qry = null;
-                PreparedStatement ps = null;
-                String reg_no = RegNoTextField.getText();
-
-                //if photopath is null
-                if (photopath == null) {
-                    try {
-                        qry = "UPDATE student SET name=?, mother_name=?, mother_occupation=?, "
-                                + "address=?, father_name=?, father_occupation=?, sex=?, "
-                                + "dob=?, phone=?, email=?, date_of_application=?, course=?, "
-                                + "branch=?, batch=?, semester=?, year_of_passing=?, hostel=?, "
-                                + "library=?, qualification=?, university=?, quota=?, marks=?, status=? "
-                                + "WHERE registration_no LIKE '%" + reg_no + "%'";
-                        ps = con.prepareStatement(qry);
-
-                        ps.setString(1, NameTextField.getText().toString());
-                        ps.setString(2, MotherNameTextField.getText().toString());
-                        ps.setString(3, MotherOccupationTextField.getText().toString());
-                        ps.setString(4, AddressTextArea.getText().toString());
-                        ps.setString(5, FatherNameTextField.getText().toString());
-                        ps.setString(6, FatherOccupationTextField.getText().toString());
-                        ps.setString(7, SexComboBox.getSelectedItem().toString());
-
-                        SimpleDateFormat dobFormat = new SimpleDateFormat("dd-MM-yyyy");
-                        String dob = dobFormat.format(DOBChooser.getDate());
-                        ps.setString(8, dob);
-
-                        ps.setString(9, PhoneTextField.getText().toString());
-                        ps.setString(10, EmailTextField.getText().toString());
-                        ps.setString(11, dobFormat.format(DateChooser.getDate()));
-                        ps.setString(12, CourseComboBox.getSelectedItem().toString());
-                        ps.setString(13, BranchComboBox.getSelectedItem().toString());
-                        ps.setInt(14, BatchYearChooser.getYear());
-                        ps.setString(15, SemesterComboBox.getSelectedItem().toString());
-                        ps.setInt(16, PassingYearChooser.getYear());
-
-                        if (HostelCheckBox.isSelected()) {
-                            ps.setBoolean(17, true);
-                        } else {
-                            ps.setBoolean(17, false);
-                        }
-
-                        if (LibraryCheckBox.isSelected()) {
-                            ps.setBoolean(18, true);
-                        } else {
-                            ps.setBoolean(18, false);
-                        }
-
-                        ps.setString(19, QualificationTextField.getText().toString());
-                        ps.setString(20, UniversityTextField.getText().toString());
-                        ps.setString(21, QuotaComboBox.getSelectedItem().toString());
-                        ps.setDouble(22, Double.parseDouble(MarksTextField.getText().toString()));
-                        ps.setString(23, StatusComboBox.getSelectedItem().toString());
-
-                        int res = ps.executeUpdate();
-                        if (res >= 1) {
-                            JOptionPane.showMessageDialog(null, "Record successfully Updated..");
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Record Updation Failed...");
-                        }
-                    } catch (Exception e) {
-                        System.err.println(e.toString());
-                        JOptionPane.showMessageDialog(null, "Record Updation Failed...");
-                    }
-                } else {
-                    if (photopath != null) {
-                        try {
-                            InputStream photoStream = new FileInputStream(new File(photopath));
-
-                            qry = "UPDATE student SET name=?, mother_name=?, mother_occupation=?, "
-                                    + "address=?, father_name=?, father_occupation=?, sex=?, "
-                                    + "dob=?, phone=?, email=?, date_of_application=?, course=?, "
-                                    + "branch=?, batch=?, semester=?, year_of_passing=?, hostel=?, "
-                                    + "library=?, qualification=?, university=?, quota=?, marks=?, status=?, "
-                                    + "photo=? WHERE registration_no LIKE '%" + reg_no + "%'";
-                            ps = con.prepareStatement(qry);
-
-                            ps.setString(1, NameTextField.getText().toString());
-                            ps.setString(2, MotherNameTextField.getText().toString());
-                            ps.setString(3, MotherOccupationTextField.getText().toString());
-                            ps.setString(4, AddressTextArea.getText().toString());
-                            ps.setString(5, FatherNameTextField.getText().toString());
-                            ps.setString(6, FatherOccupationTextField.getText().toString());
-                            ps.setString(7, SexComboBox.getSelectedItem().toString());
-
-                            SimpleDateFormat dobFormat = new SimpleDateFormat("dd-MM-yyyy");
-                            String dob = dobFormat.format(DOBChooser.getDate());
-                            ps.setString(8, dob);
-
-                            ps.setString(9, PhoneTextField.getText().toString());
-                            ps.setString(10, EmailTextField.getText().toString());
-                            ps.setString(11, dobFormat.format(DateChooser.getDate()));
-                            ps.setString(12, CourseComboBox.getSelectedItem().toString());
-                            ps.setString(13, BranchComboBox.getSelectedItem().toString());
-                            ps.setInt(14, BatchYearChooser.getYear());
-                            ps.setString(15, SemesterComboBox.getSelectedItem().toString());
-                            ps.setInt(16, PassingYearChooser.getYear());
-
-                            if (HostelCheckBox.isSelected()) {
-                                ps.setBoolean(17, true);
-                            } else {
-                                ps.setBoolean(17, false);
-                            }
-
-                            if (LibraryCheckBox.isSelected()) {
-                                ps.setBoolean(18, true);
-                            } else {
-                                ps.setBoolean(18, false);
-                            }
-
-                            ps.setString(19, QualificationTextField.getText().toString());
-                            ps.setString(20, UniversityTextField.getText().toString());
-                            ps.setString(21, QuotaComboBox.getSelectedItem().toString());
-                            ps.setDouble(22, Double.parseDouble(MarksTextField.getText().toString()));
-                            ps.setString(23, StatusComboBox.getSelectedItem().toString());
-
-                            ps.setBlob(24, photoStream);
-
-                            int i = ps.executeUpdate();
-                            if (i >= 1) {
-                                JOptionPane.showMessageDialog(null, "Record successfully Updated..");
-                            } else {
-                                JOptionPane.showMessageDialog(null, "Record Updation Failed...");
-                            }
-                        } catch (Exception e) {
-                            System.err.println(e.toString());
-                            JOptionPane.showMessageDialog(null, "Record Updation Failed...");
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Select an Image First...");
-                    }
+            if (_checkInputFields()) {
+                int choice = JOptionPane.showConfirmDialog(null, "Do You want to update the data?", "Confirm", 0, 3);
+                if (choice == 0) {
+                    _updateStudentData();
                 }
-
-            } else {
-                JOptionPane.showMessageDialog(null, "All fields are compulsory/Invalid Inputs...");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised!!!");
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
         }
 
     }//GEN-LAST:event_UpdateButtonMousePressed
@@ -1175,29 +1226,17 @@ public class StudentEntryForm extends javax.swing.JFrame {
     private void DeleteButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteButtonMousePressed
 
         if (role == Role.ADMIN) {
-            if (RegNoTextField.getText() != null) {
-                try {
-                    String reg_no = RegNoTextField.getText();
-                    String qry = "DELETE FROM student WHERE registration_no LIKE '%" + reg_no + "%'";
-
-                    PreparedStatement ps = con.prepareStatement(qry);
-                    ps.setString(1, RolllNoTextField.getText().toString());
-                    int x = ps.executeUpdate();
-                    if (x >= 1) {
-                        JOptionPane.showMessageDialog(null, "Record Deleted from Database...");
-                        clearFields();
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Record Deleted Failed...");
-                    }
-                } catch (Exception e) {
-                    System.err.println(e.toString());
-                    JOptionPane.showMessageDialog(null, "Record Deleted Failed...");
-                }
+            if (RegNoTextField.getText().isBlank()) {
+                JOptionPane.showMessageDialog(null, "Student Registration No. Is Required!!!");
             } else {
-                JOptionPane.showMessageDialog(null, "Please Enter Student Roll No. to delete");
+                String reg_no = RegNoTextField.getText();
+                int choice = JOptionPane.showConfirmDialog(null, "Do You want to delete the student?", "Confirm", 0, 3);
+                if (choice == 0) {
+                    _deleteStudentData(reg_no);
+                }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised!!!");
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
         }
 
     }//GEN-LAST:event_DeleteButtonMousePressed
@@ -1205,6 +1244,20 @@ public class StudentEntryForm extends javax.swing.JFrame {
     private void ClearButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ClearButtonMousePressed
         clearFields();
     }//GEN-LAST:event_ClearButtonMousePressed
+
+    private void SemLoadingButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SemLoadingButtonMousePressed
+        if (CourseComboBox.getSelectedItem() == null || CourseComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Select a course first.");
+        } else if (BranchComboBox.getSelectedItem() == null || BranchComboBox.getSelectedItem() == "Select") {
+            JOptionPane.showMessageDialog(null, "Select a branch first.");
+        } else {
+            ArrayList<String> semList = DBFunctions.getSemester(CourseComboBox.getSelectedItem().toString(), BranchComboBox.getSelectedItem().toString());
+            if (semList.isEmpty()) {
+                semList.add("Select");
+            }
+            SemesterComboBox.setModel(new DefaultComboBoxModel<>(semList.toArray(new String[0])));
+        }
+    }//GEN-LAST:event_SemLoadingButtonMousePressed
 
     public static void main(String args[]) {
 
@@ -1214,10 +1267,8 @@ public class StudentEntryForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(StudentEntryForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StudentEntryForm(role).setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new StudentEntryForm(role).setVisible(true);
         });
     }
 
@@ -1254,6 +1305,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
     private javax.swing.JTextField RegNoTextField;
     private javax.swing.JTextField RolllNoTextField;
     private javax.swing.JButton SaveButton;
+    private javax.swing.JButton SemLoadingButton;
     private javax.swing.JComboBox<String> SemesterComboBox;
     private javax.swing.JComboBox<String> SexComboBox;
     private javax.swing.JComboBox<String> StatusComboBox;

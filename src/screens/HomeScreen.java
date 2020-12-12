@@ -3,6 +3,7 @@ package screens;
 import com.formdev.flatlaf.FlatLightLaf;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -161,6 +162,11 @@ public class HomeScreen extends javax.swing.JFrame {
         HostelButton.setOpaque(false);
         HostelButton.setPreferredSize(new java.awt.Dimension(160, 160));
         HostelButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        HostelButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                HostelButtonMousePressed(evt);
+            }
+        });
         MenuOne.add(HostelButton);
 
         ButtonPanel.add(MenuOne);
@@ -264,6 +270,15 @@ public class HomeScreen extends javax.swing.JFrame {
         FacultyPortal facultyPortal = new FacultyPortal(role);
         facultyPortal.setVisible(true);
     }//GEN-LAST:event_FacultyButtonMousePressed
+
+    private void HostelButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HostelButtonMousePressed
+        if (role == Role.ADMIN) {
+           HostelPortal hostelPortal = new HostelPortal(role);
+           hostelPortal.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
+        }
+    }//GEN-LAST:event_HostelButtonMousePressed
 
     public static void main(String args[]) {
 

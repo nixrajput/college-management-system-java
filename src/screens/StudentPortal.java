@@ -26,23 +26,22 @@ public class StudentPortal extends javax.swing.JFrame {
 
     static String application_no = null;
 
-    Connection con = new DBConnection().connect();
+    private final Connection con = new DBConnection().connect();
 
-    ArrayList<Student> student_list = new ArrayList<Student>();
+    ArrayList<Student> student_list = new ArrayList<>();
 
     private void customizeComponents() {
+        setLocationRelativeTo(this);
         StudentTable.getTableHeader().setFont(new java.awt.Font("Tahoma", 1, 12));
         StudentTable.getTableHeader().setForeground(new java.awt.Color(0, 150, 150));
     }
 
     private ArrayList<Student> retrieveData() {
         String qry = null;
-        student_list.clear();
+        ArrayList<Student> stu_list = new ArrayList<>();
 
         try {
-
             qry = "SELECT * FROM student WHERE status LIKE '%CONFIRM%'";
-
             Statement st = con.createStatement();
             ResultSet rs = st.executeQuery(qry);
             Student student;
@@ -54,16 +53,17 @@ public class StudentPortal extends javax.swing.JFrame {
                         rs.getBytes("photo"), rs.getString("date_of_application"), rs.getString("course"), rs.getString("branch"),
                         rs.getInt("batch"), rs.getString("semester"), rs.getInt("year_of_passing"), rs.getBoolean("hostel"), rs.getBoolean("library"),
                         rs.getString("qualification"), rs.getString("university"), rs.getString("quota"), rs.getString("marks"), rs.getString("status"));
-                student_list.add(student);
+                stu_list.add(student);
             }
 
         } catch (Exception e) {
             System.out.println(e);
         }
-        return student_list;
+        return stu_list;
     }
 
     private void fillTable() {
+        student_list.clear();
         student_list = retrieveData();
         DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
         model.setRowCount(0);
@@ -80,11 +80,10 @@ public class StudentPortal extends javax.swing.JFrame {
     }
 
     public StudentPortal(Role role, String app_no) {
-        this.role = role;
+        this.role = Role.ADMIN;
         this.application_no = app_no;
         initComponents();
         customizeComponents();
-        setLocationRelativeTo(this);
         fillTable();
     }
 
@@ -292,7 +291,7 @@ public class StudentPortal extends javax.swing.JFrame {
         );
         TablePanelLayout.setVerticalGroup(
             TablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(StudentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
+            .addComponent(StudentScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 509, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -317,7 +316,7 @@ public class StudentPortal extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(SearchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(TablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(TablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -326,14 +325,12 @@ public class StudentPortal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void EntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntryButtonActionPerformed
-
         if (role == Role.ADMIN) {
             StudentEntryForm entryForm = new StudentEntryForm(role);
             entryForm.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised!!!");
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
         }
-
     }//GEN-LAST:event_EntryButtonActionPerformed
 
     private void RefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshButtonActionPerformed
@@ -348,17 +345,16 @@ public class StudentPortal extends javax.swing.JFrame {
             StudentApplicationsScreen studentApplicationsScreen = new StudentApplicationsScreen(role);
             studentApplicationsScreen.setVisible(true);
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised!!!");
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
         }
 
     }//GEN-LAST:event_ConfirmationButtonActionPerformed
 
     private void SearchButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SearchButtonMousePressed
 
-        String val = SearchTextField.getText().toString();
+        String val = SearchTextField.getText();
         student_list.clear();
         try {
-
             String qry = "SELECT * FROM student WHERE name LIKE '%" + val + "%' OR roll_no LIKE '%" + val + "%' "
                     + "OR registration_no LIKE '%" + val + "%' OR application_no LIKE '%" + val + "%'";
             Statement st = con.createStatement();
@@ -376,8 +372,8 @@ public class StudentPortal extends javax.swing.JFrame {
             }
             DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
             model.setRowCount(0);
-            if (student_list.size() == 0) {
-                JOptionPane.showMessageDialog(null, "No Records Found!");
+            if (student_list.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No Records Found");
 
             } else {
                 Object[] row = new Object[6];
@@ -417,10 +413,8 @@ public class StudentPortal extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(StudentPortal.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new StudentPortal(role, application_no).setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new StudentPortal(role, application_no).setVisible(true);
         });
     }
 

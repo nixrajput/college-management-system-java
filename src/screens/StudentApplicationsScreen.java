@@ -307,10 +307,10 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
 
     private void StudentTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentTableMousePressed
         int ind = StudentTable.getSelectedRow();
-        String roll_no = student_list.get(ind).getRollNo();
+        String reg_no = student_list.get(ind).getRegNo();
         StudentEntryForm entryForm = new StudentEntryForm(role);
         entryForm.setVisible(true);
-        entryForm.showItemToFields(roll_no);
+        entryForm.showItemToFields(reg_no);
     }//GEN-LAST:event_StudentTableMousePressed
 
     private void RefreshButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RefreshButtonMousePressed

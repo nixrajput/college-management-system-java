@@ -57,7 +57,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="SearchPanel" min="-2" pref="54" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="TablePanel" max="32767" attributes="0"/>
+              <Component id="TablePanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -300,7 +300,7 @@
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="StudentScrollPane" alignment="0" pref="509" max="32767" attributes="0"/>
+              <Component id="StudentScrollPane" alignment="1" pref="509" max="32767" attributes="0"/>
           </Group>
         </DimensionLayout>
       </Layout>
