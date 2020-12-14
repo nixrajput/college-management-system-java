@@ -24,7 +24,7 @@ public class StudentPortal extends javax.swing.JFrame {
     ImageIcon icon = new ImageIcon(iconURL);
     static Role role;
 
-    static String application_no = null;
+    static String reg_no = null;
 
     private final Connection con = new DBConnection().connect();
 
@@ -67,21 +67,22 @@ public class StudentPortal extends javax.swing.JFrame {
         student_list = retrieveData();
         DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
         model.setRowCount(0);
-        Object[] row = new Object[6];
+        Object[] row = new Object[7];
         for (int i = 0; i < student_list.size(); i++) {
-            row[0] = student_list.get(i).getRollNo();
-            row[1] = student_list.get(i).getName();
-            row[2] = student_list.get(i).getFather_name();
-            row[3] = student_list.get(i).getCourse();
-            row[4] = student_list.get(i).getBranch();
-            row[5] = student_list.get(i).getSemester();
+            row[0] = student_list.get(i).getRegNo();
+            row[1] = student_list.get(i).getRollNo();
+            row[2] = student_list.get(i).getName();
+            row[3] = student_list.get(i).getFather_name();
+            row[4] = student_list.get(i).getCourse();
+            row[5] = student_list.get(i).getBranch();
+            row[6] = student_list.get(i).getSemester();
             model.addRow(row);
         }
     }
 
     public StudentPortal(Role role, String app_no) {
-        this.role = Role.ADMIN;
-        this.application_no = app_no;
+        this.role = role;
+        this.reg_no = app_no;
         initComponents();
         customizeComponents();
         fillTable();
@@ -109,6 +110,7 @@ public class StudentPortal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("constants/strings"); // NOI18N
         setTitle(bundle.getString("APP_NAME")); // NOI18N
+        setBackground(new java.awt.Color(255, 255, 255));
         setIconImage(icon.getImage());
         setMaximumSize(new java.awt.Dimension(1200, 800));
         setMinimumSize(new java.awt.Dimension(1200, 800));
@@ -139,6 +141,7 @@ public class StudentPortal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        ButtonPanel.setOpaque(false);
         ButtonPanel.setLayout(new java.awt.GridLayout(1, 0));
 
         EntryButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
@@ -213,6 +216,8 @@ public class StudentPortal extends javax.swing.JFrame {
         });
         ButtonPanel.add(RefreshButton);
 
+        SearchPanel.setOpaque(false);
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 150, 150));
         jLabel1.setText("Search");
@@ -250,7 +255,8 @@ public class StudentPortal extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        StudentScrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Students", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(0, 150, 150))); // NOI18N
+        TablePanel.setOpaque(false);
+
         StudentScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         StudentScrollPane.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         StudentScrollPane.setRowHeaderView(null);
@@ -261,11 +267,11 @@ public class StudentPortal extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Roll No.", "Name", "Father's Name", "Course", "Branch", "Semester"
+                "Reg. No.", "Roll No.", "Name", "Father's Name", "Course", "Branch", "Semester"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -282,6 +288,15 @@ public class StudentPortal extends javax.swing.JFrame {
             }
         });
         StudentScrollPane.setViewportView(StudentTable);
+        if (StudentTable.getColumnModel().getColumnCount() > 0) {
+            StudentTable.getColumnModel().getColumn(0).setResizable(false);
+            StudentTable.getColumnModel().getColumn(1).setResizable(false);
+            StudentTable.getColumnModel().getColumn(2).setResizable(false);
+            StudentTable.getColumnModel().getColumn(3).setResizable(false);
+            StudentTable.getColumnModel().getColumn(4).setResizable(false);
+            StudentTable.getColumnModel().getColumn(5).setResizable(false);
+            StudentTable.getColumnModel().getColumn(6).setResizable(false);
+        }
 
         javax.swing.GroupLayout TablePanelLayout = new javax.swing.GroupLayout(TablePanel);
         TablePanel.setLayout(TablePanelLayout);
@@ -326,7 +341,7 @@ public class StudentPortal extends javax.swing.JFrame {
 
     private void EntryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EntryButtonActionPerformed
         if (role == Role.ADMIN) {
-            StudentEntryForm entryForm = new StudentEntryForm(role);
+            StudentEntryForm entryForm = new StudentEntryForm(role, reg_no);
             entryForm.setVisible(true);
         } else {
             JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
@@ -335,6 +350,7 @@ public class StudentPortal extends javax.swing.JFrame {
 
     private void RefreshButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RefreshButtonActionPerformed
 
+        SearchTextField.setText(null);
         fillTable();
 
     }//GEN-LAST:event_RefreshButtonActionPerformed
@@ -376,14 +392,15 @@ public class StudentPortal extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "No Records Found");
 
             } else {
-                Object[] row = new Object[6];
+                Object[] row = new Object[7];
                 for (int i = 0; i < student_list.size(); i++) {
-                    row[0] = student_list.get(i).getRollNo();
-                    row[1] = student_list.get(i).getName();
-                    row[2] = student_list.get(i).getFather_name();
-                    row[3] = student_list.get(i).getCourse();
-                    row[4] = student_list.get(i).getBranch();
-                    row[5] = student_list.get(i).getSemester();
+                    row[0] = student_list.get(i).getRegNo();
+                    row[1] = student_list.get(i).getRollNo();
+                    row[2] = student_list.get(i).getName();
+                    row[3] = student_list.get(i).getFather_name();
+                    row[4] = student_list.get(i).getCourse();
+                    row[5] = student_list.get(i).getBranch();
+                    row[6] = student_list.get(i).getSemester();
                     model.addRow(row);
                 }
             }
@@ -395,10 +412,10 @@ public class StudentPortal extends javax.swing.JFrame {
 
     private void StudentTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentTableMousePressed
         int ind = StudentTable.getSelectedRow();
-        String reg_no = student_list.get(ind).getRegNo();
-        StudentEntryForm entryForm = new StudentEntryForm(role);
+        String reg = student_list.get(ind).getRegNo();
+        StudentEntryForm entryForm = new StudentEntryForm(role, reg_no);
         entryForm.setVisible(true);
-        entryForm.showItemToFields(reg_no);
+        entryForm.showItemToFields(reg);
     }//GEN-LAST:event_StudentTableMousePressed
 
     private void ApplicationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ApplicationButtonActionPerformed
@@ -414,7 +431,7 @@ public class StudentPortal extends javax.swing.JFrame {
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new StudentPortal(role, application_no).setVisible(true);
+            new StudentPortal(role, reg_no).setVisible(true);
         });
     }
 

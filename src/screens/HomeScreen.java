@@ -17,11 +17,11 @@ public class HomeScreen extends javax.swing.JFrame {
     ImageIcon icon = new ImageIcon(iconURL);
     static Role role;
 
-    static String current_uname = null;
+    static String reg_no = null;
 
     public HomeScreen(Role role, String reg_no) {
         this.role = role;
-        this.current_uname = reg_no;
+        this.reg_no = reg_no;
         initComponents();
         customizeComponents();
     }
@@ -41,6 +41,7 @@ public class HomeScreen extends javax.swing.JFrame {
         AppNameLabel = new javax.swing.JLabel();
         BannerPanel = new javax.swing.JPanel();
         BannerLabel = new javax.swing.JLabel();
+        LogoutButton = new javax.swing.JButton();
         ControlPanel = new javax.swing.JPanel();
         ButtonPanel = new javax.swing.JPanel();
         MenuOne = new javax.swing.JPanel();
@@ -58,6 +59,7 @@ public class HomeScreen extends javax.swing.JFrame {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("constants/strings"); // NOI18N
         setTitle(bundle.getString("APP_NAME")); // NOI18N
         setIconImage(icon.getImage());
+        setMaximumSize(new java.awt.Dimension(1200, 800));
         setMinimumSize(new java.awt.Dimension(1200, 800));
         setName("HomeFrame"); // NOI18N
         setResizable(false);
@@ -90,7 +92,42 @@ public class HomeScreen extends javax.swing.JFrame {
 
         BannerLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         BannerLabel.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/home_banner.png"))); // NOI18N
-        BannerPanel.add(BannerLabel);
+
+        LogoutButton.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
+        LogoutButton.setForeground(new java.awt.Color(255, 255, 255));
+        LogoutButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn.png"))); // NOI18N
+        LogoutButton.setText("Logout");
+        LogoutButton.setBorder(null);
+        LogoutButton.setBorderPainted(false);
+        LogoutButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        LogoutButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        LogoutButton.setOpaque(false);
+        LogoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                LogoutButtonMousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout BannerPanelLayout = new javax.swing.GroupLayout(BannerPanel);
+        BannerPanel.setLayout(BannerPanelLayout);
+        BannerPanelLayout.setHorizontalGroup(
+            BannerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BannerPanelLayout.createSequentialGroup()
+                .addGap(250, 250, 250)
+                .addComponent(BannerLabel)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LogoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        BannerPanelLayout.setVerticalGroup(
+            BannerPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(BannerPanelLayout.createSequentialGroup()
+                .addGap(5, 5, 5)
+                .addComponent(BannerLabel))
+            .addGroup(BannerPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(LogoutButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
 
         ButtonPanel.setMinimumSize(new java.awt.Dimension(1180, 349));
         ButtonPanel.setOpaque(false);
@@ -240,12 +277,10 @@ public class HomeScreen extends javax.swing.JFrame {
             .addComponent(TitlePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(ControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(BannerPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(BannerPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 1180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -255,30 +290,84 @@ public class HomeScreen extends javax.swing.JFrame {
                 .addComponent(BannerPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(ControlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(23, Short.MAX_VALUE))
+                .addContainerGap(28, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void StudentButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentButtonMousePressed
-        StudentPortal studentPortal = new StudentPortal(role, current_uname);
-        studentPortal.setVisible(true);
+        if (role == null) {
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
+        } else
+            switch (role) {
+                case ADMIN:
+                case FACULTY:
+                    StudentPortal studentPortal = new StudentPortal(role, reg_no);
+                    studentPortal.setVisible(true);
+                    break;
+                case STUDENT:
+                    StudentEntryForm entryForm = new StudentEntryForm(role, reg_no);
+                    entryForm.setVisible(true);
+                    entryForm.showItemToFields(reg_no);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
+                    break;
+            }
     }//GEN-LAST:event_StudentButtonMousePressed
 
     private void FacultyButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_FacultyButtonMousePressed
-        FacultyPortal facultyPortal = new FacultyPortal(role);
-        facultyPortal.setVisible(true);
+        if (role == null) {
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
+        } else {
+            switch (role) {
+                case ADMIN:
+                    FacultyPortal facultyPortal = new FacultyPortal(role);
+                    facultyPortal.setVisible(true);
+                    break;
+                case FACULTY:
+                    FacultyEntryForm entryForm = new FacultyEntryForm(role);
+                    entryForm.setVisible(true);
+                    entryForm.showItemToFields(reg_no);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
+                    break;
+            }
+        }
     }//GEN-LAST:event_FacultyButtonMousePressed
 
     private void HostelButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_HostelButtonMousePressed
-        if (role == Role.ADMIN) {
-           HostelPortal hostelPortal = new HostelPortal(role);
-           hostelPortal.setVisible(true);
-        } else {
+
+        if (role == null) {
             JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
+        } else {
+            switch (role) {
+                case ADMIN:
+                case FACULTY:
+                    HostelPortal hostelPortal = new HostelPortal(role);
+                    hostelPortal.setVisible(true);
+                    break;
+                case STUDENT:
+                    HostelIssueForm issueForm = new HostelIssueForm(role);
+                    issueForm.setVisible(true);
+                    issueForm.showItemToFields(reg_no);
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
+                    break;
+            }
         }
     }//GEN-LAST:event_HostelButtonMousePressed
+
+    private void LogoutButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutButtonMousePressed
+        
+        this.dispose();
+        LoginScreen loginScreen = new LoginScreen();
+        loginScreen.setVisible(true);
+        
+    }//GEN-LAST:event_LogoutButtonMousePressed
 
     public static void main(String args[]) {
 
@@ -289,7 +378,7 @@ public class HomeScreen extends javax.swing.JFrame {
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new HomeScreen(role, current_uname).setVisible(true);
+            new HomeScreen(role, reg_no).setVisible(true);
         });
     }
 
@@ -305,6 +394,7 @@ public class HomeScreen extends javax.swing.JFrame {
     private javax.swing.JButton FacultyButton;
     private javax.swing.JButton HostelButton;
     private javax.swing.JButton LibraryButton;
+    private javax.swing.JButton LogoutButton;
     private javax.swing.JPanel MenuOne;
     private javax.swing.JPanel MenuTwo;
     private javax.swing.JButton ReportsButton;

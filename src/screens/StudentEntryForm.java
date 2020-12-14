@@ -36,9 +36,11 @@ public class StudentEntryForm extends javax.swing.JFrame {
     URL iconURL = getClass().getResource("/assets/college_mang_icon.png");
     ImageIcon icon = new ImageIcon(iconURL);
     static Role role;
+    static String reg_no;
 
     String photopath = null;
     Date date = new Date();
+    private String title;
 
     private final Connection con = new DBConnection().connect();
 
@@ -50,6 +52,11 @@ public class StudentEntryForm extends javax.swing.JFrame {
     private String generateRegNo() {
         String app_no = RandomGenerator.getNumericString(4);
         return "STUDENT" + app_no;
+    }
+
+    @Override
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     private Student retrieveData(String reg_no) {
@@ -147,6 +154,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
 
     private void customizeComponents() {
         setLocationRelativeTo(this);
+        setTitle("STUDENT ENTRY FORM");
         DateChooser.setDate(date);
         ApplNoTextField.setText(generateAppNo());
         RegNoTextField.setText(generateRegNo());
@@ -234,8 +242,9 @@ public class StudentEntryForm extends javax.swing.JFrame {
         return isValid;
     }
 
-    public StudentEntryForm(Role role) {
+    public StudentEntryForm(Role role, String reg_no) {
         this.role = role;
+        this.reg_no = reg_no;
         initComponents();
         customizeComponents();
     }
@@ -1035,11 +1044,11 @@ public class StudentEntryForm extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "Student Inserted Succussfully. You Registration No. is [" + RegNoTextField.getText() + "].", "Success", 1);
                     clearFields();
                 } else {
-                    JOptionPane.showMessageDialog(null, "Insertion Failed", "Error", 0);
+                    JOptionPane.showMessageDialog(null, "Insertion Failed!", "Error", 0);
                 }
             } catch (Exception e) {
                 System.err.println(e);
-                JOptionPane.showMessageDialog(null, "Insertion Failed", "Error", 0);
+                JOptionPane.showMessageDialog(null, "Insertion Failed!", "Error", 0);
             }
         }
     }
@@ -1047,7 +1056,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
     private void _updateStudentData() {
         String qry = null;
         PreparedStatement ps = null;
-        String reg_no = RegNoTextField.getText();
+        String _reg_no = RegNoTextField.getText();
 
         if (photopath == null) {
             try {
@@ -1056,7 +1065,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
                         + "dob=?, phone=?, email=?, date_of_application=?, course=?, "
                         + "branch=?, batch=?, semester=?, year_of_passing=?, hostel=?, "
                         + "library=?, qualification=?, university=?, quota=?, marks=?, status=? "
-                        + "WHERE registration_no LIKE '%" + reg_no + "%'";
+                        + "WHERE registration_no LIKE '%" + _reg_no + "%'";
                 ps = con.prepareStatement(qry);
 
                 ps.setString(1, NameTextField.getText());
@@ -1100,13 +1109,13 @@ public class StudentEntryForm extends javax.swing.JFrame {
 
                 int res = ps.executeUpdate();
                 if (res >= 1) {
-                    JOptionPane.showMessageDialog(null, "Record Updated", "Success", 1);
+                    JOptionPane.showMessageDialog(null, "Record Updated.", "Success", 1);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Updation Failed", "Error", 0);
+                    JOptionPane.showMessageDialog(null, "Updation Failed!", "Error", 0);
                 }
             } catch (Exception e) {
                 System.err.println(e.toString());
-                JOptionPane.showMessageDialog(null, "Updation Failed", "Error", 0);
+                JOptionPane.showMessageDialog(null, "Updation Failed!", "Error", 0);
             }
         } else {
             try {
@@ -1163,13 +1172,13 @@ public class StudentEntryForm extends javax.swing.JFrame {
 
                 int i = ps.executeUpdate();
                 if (i >= 1) {
-                    JOptionPane.showMessageDialog(null, "Record Updated", "Success", 1);
+                    JOptionPane.showMessageDialog(null, "Record Updated.", "Success", 1);
                 } else {
-                    JOptionPane.showMessageDialog(null, "Updation Failed", "Error", 0);
+                    JOptionPane.showMessageDialog(null, "Updation Failed!", "Error", 0);
                 }
             } catch (Exception e) {
                 System.err.println(e.toString());
-                JOptionPane.showMessageDialog(null, "Updation Failed", "Error", 0);
+                JOptionPane.showMessageDialog(null, "Updation Failed!", "Error", 0);
             }
         }
     }
@@ -1182,14 +1191,14 @@ public class StudentEntryForm extends javax.swing.JFrame {
             ps.setString(1, RolllNoTextField.getText());
             int x = ps.executeUpdate();
             if (x >= 1) {
-                JOptionPane.showMessageDialog(null, "Record Deleted", "Success", 1);
+                JOptionPane.showMessageDialog(null, "Record Deleted.", "Success", 1);
                 clearFields();
             } else {
-                JOptionPane.showMessageDialog(null, "Deletion Failed", "Error", 0);
+                JOptionPane.showMessageDialog(null, "Deletion Failed!", "Error", 0);
             }
         } catch (Exception e) {
             System.err.println(e);
-            JOptionPane.showMessageDialog(null, "Deletion Failed", "Error", 0);
+            JOptionPane.showMessageDialog(null, "Deletion Failed!", "Error", 0);
         }
     }
 
@@ -1203,7 +1212,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised!", "Access Denied", 0);
         }
 
     }//GEN-LAST:event_SaveButtonActionPerformed
@@ -1218,7 +1227,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised!", "Access Denied", 0);
         }
 
     }//GEN-LAST:event_UpdateButtonMousePressed
@@ -1227,16 +1236,16 @@ public class StudentEntryForm extends javax.swing.JFrame {
 
         if (role == Role.ADMIN) {
             if (RegNoTextField.getText().isBlank()) {
-                JOptionPane.showMessageDialog(null, "Student Registration No. Is Required!!!");
+                JOptionPane.showMessageDialog(null, "Student Registration No. Is Required!");
             } else {
-                String reg_no = RegNoTextField.getText();
+                String _reg_no = RegNoTextField.getText();
                 int choice = JOptionPane.showConfirmDialog(null, "Do You want to delete the student?", "Confirm", 0, 3);
                 if (choice == 0) {
-                    _deleteStudentData(reg_no);
+                    _deleteStudentData(_reg_no);
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised", "Access Denied", 0);
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised!", "Access Denied", 0);
         }
 
     }//GEN-LAST:event_DeleteButtonMousePressed
@@ -1268,7 +1277,7 @@ public class StudentEntryForm extends javax.swing.JFrame {
         }
 
         java.awt.EventQueue.invokeLater(() -> {
-            new StudentEntryForm(role).setVisible(true);
+            new StudentEntryForm(role, reg_no).setVisible(true);
         });
     }
 

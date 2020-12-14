@@ -10,10 +10,13 @@
       <Connection code="icon.getImage()" type="code"/>
     </Property>
     <Property name="maximumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[540, 760]"/>
+      <Dimension value="[540, 680]"/>
     </Property>
     <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-      <Dimension value="[540, 760]"/>
+      <Dimension value="[540, 680]"/>
+    </Property>
+    <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+      <Dimension value="[540, 680]"/>
     </Property>
     <Property name="resizable" type="boolean" value="false"/>
   </Properties>
@@ -36,19 +39,15 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Component id="TitlePanel" max="32767" attributes="0"/>
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="ButtonPanel" pref="0" max="32767" attributes="0"/>
-                  <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
-                      <Component id="BodyPanel" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="0" pref="18" max="32767" attributes="0"/>
-                  </Group>
+                  <Component id="BodyPanel" max="32767" attributes="0"/>
+                  <Component id="ButtonPanel" alignment="1" pref="0" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
-          <Component id="TitlePanel" alignment="0" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
     <DimensionLayout dim="1">
@@ -57,9 +56,9 @@
               <Component id="TitlePanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="BodyPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="29" max="32767" attributes="0"/>
+              <EmptySpace pref="48" max="32767" attributes="0"/>
               <Component id="ButtonPanel" min="-2" pref="108" max="-2" attributes="0"/>
-              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -77,7 +76,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="TitleLabel" max="32767" attributes="0"/>
+                  <Component id="TitleLabel" pref="520" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -104,7 +103,7 @@
               <Color blue="ff" green="ff" red="ff" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="SUBJECT ISSUE FORM"/>
+            <Property name="text" type="java.lang.String" value="HOSTEL ISSUE FORM"/>
             <Property name="toolTipText" type="java.lang.String" value=""/>
             <Property name="horizontalTextPosition" type="int" value="0"/>
           </Properties>
@@ -123,49 +122,39 @@
                       <Component id="jLabel20" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel5" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel15" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel18" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel25" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel22" alignment="0" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="SubjectComboBox" min="-2" pref="260" max="-2" attributes="0"/>
+                          <Component id="HostelNoComboBox" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="SubLoadingButton" min="-2" max="-2" attributes="0"/>
+                          <Component id="HostelLoadingButton" min="-2" pref="61" max="-2" attributes="0"/>
                       </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="SemesterComboBox" max="32767" attributes="0"/>
-                              <Component id="BranchComboBox" max="32767" attributes="0"/>
-                              <Component id="CourseComboBox" max="32767" attributes="0"/>
-                          </Group>
-                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
-                          <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="CourseLoadingButton" alignment="1" min="-2" pref="61" max="-2" attributes="0"/>
-                              <Component id="BranchLoadingButton" alignment="1" min="-2" pref="61" max="-2" attributes="0"/>
-                              <Component id="SemesterLoadingButton" alignment="1" min="-2" pref="61" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
-                      <Component id="UIDTextField" alignment="1" max="32767" attributes="0"/>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="TimeTextField" max="32767" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="TimeComboBox" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="SectionTextField" alignment="0" max="32767" attributes="0"/>
-                      <Group type="102" alignment="0" attributes="0">
-                          <Component id="FacultyComboBox" min="-2" pref="260" max="-2" attributes="0"/>
-                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                          <Component id="FacultyLoadingButton" min="-2" max="-2" attributes="0"/>
-                      </Group>
-                      <Component id="DayComboBox" alignment="0" max="32767" attributes="0"/>
                       <Component id="DateChooser" alignment="0" max="32767" attributes="0"/>
+                      <Component id="NameTextField" alignment="0" max="32767" attributes="0"/>
+                      <Component id="RoomTypeComboBox" max="32767" attributes="0"/>
+                      <Component id="BedTypeComboBox" alignment="0" max="32767" attributes="0"/>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="RoomNoComboBox" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="RoomLoadingButton" min="-2" pref="61" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="RegNoTextField" max="32767" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="GetDetailsButton" min="-2" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <Component id="FloorNoComboBox" max="32767" attributes="0"/>
+                          <EmptySpace min="-2" pref="10" max="-2" attributes="0"/>
+                          <Component id="FloorLoadingButton" min="-2" pref="61" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
+                  <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -175,57 +164,47 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="jLabel15" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="UIDTextField" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="RegNoTextField" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="GetDetailsButton" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="NameTextField" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="jLabel1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="CourseLoadingButton" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="jLabel18" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="CourseComboBox" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                          <Component id="HostelNoComboBox" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="HostelLoadingButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="BranchComboBox" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="BranchLoadingButton" alignment="1" min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="jLabel20" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="SemesterComboBox" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="SemesterLoadingButton" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jLabel21" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Group type="103" alignment="1" groupAlignment="3" attributes="0">
+                          <Component id="FloorNoComboBox" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="FloorLoadingButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      </Group>
+                      <Component id="jLabel22" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="103" groupAlignment="3" attributes="0">
-                          <Component id="SubjectComboBox" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                          <Component id="SubLoadingButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                          <Component id="RoomNoComboBox" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                          <Component id="RoomLoadingButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                       </Group>
+                      <Component id="jLabel21" min="-2" pref="32" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="RoomTypeComboBox" min="-2" pref="32" max="-2" attributes="0"/>
                       <Component id="jLabel5" alignment="0" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel10" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="FacultyComboBox" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="FacultyLoadingButton" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel25" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="SectionTextField" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jLabel1" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="DayComboBox" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                  </Group>
-                  <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="TimeTextField" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="TimeComboBox" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
-                      <Component id="jLabel4" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
+                      <Component id="BedTypeComboBox" alignment="3" min="-2" pref="32" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
@@ -248,7 +227,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="96" green="96" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Subject Name"/>
+            <Property name="text" type="java.lang.String" value="Room Type"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel15">
@@ -261,15 +240,14 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="96" green="96" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="UID"/>
+            <Property name="text" type="java.lang.String" value="Reg. No."/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="UIDTextField">
+        <Component class="javax.swing.JTextField" name="RegNoTextField">
           <Properties>
-            <Property name="editable" type="boolean" value="false"/>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
               <FontInfo relative="true">
-                <Font bold="true" component="UIDTextField" property="font" relativeSize="true" size="3"/>
+                <Font bold="true" component="RegNoTextField" property="font" relativeSize="true" size="3"/>
               </FontInfo>
             </Property>
             <Property name="toolTipText" type="java.lang.String" value=""/>
@@ -280,34 +258,6 @@
               <Dimension value="[200, 30]"/>
             </Property>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel18">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-              <FontInfo relative="true">
-                <Font bold="true" component="jLabel18" property="font" relativeSize="true" size="3"/>
-              </FontInfo>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="96" green="96" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Course"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="CourseComboBox">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="12" style="1"/>
-            </Property>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
-                <StringItem index="0" value="Select"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel2">
           <Properties>
@@ -332,24 +282,11 @@
             </Property>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="SectionTextField">
+        <Component class="javax.swing.JTextField" name="NameTextField">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel25">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
-              <FontInfo relative="true">
-                <Font bold="true" component="jLabel25" property="font" relativeSize="true" size="3"/>
-              </FontInfo>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="96" green="96" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Section"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel10">
@@ -362,7 +299,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="96" green="96" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Faculty Name"/>
+            <Property name="text" type="java.lang.String" value="Bed Type"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel20">
@@ -375,17 +312,20 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="96" green="96" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Branch"/>
+            <Property name="text" type="java.lang.String" value="Hostel No."/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="BranchComboBox">
+        <Component class="javax.swing.JComboBox" name="HostelNoComboBox">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
+              <StringArray count="4">
                 <StringItem index="0" value="Select"/>
+                <StringItem index="1" value="Hostel - 1"/>
+                <StringItem index="2" value="Hostel - 2"/>
+                <StringItem index="3" value="Hostel - 3"/>
               </StringArray>
             </Property>
             <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -396,7 +336,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="BranchLoadingButton">
+        <Component class="javax.swing.JButton" name="RoomLoadingButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
@@ -406,9 +346,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Load"/>
           </Properties>
-          <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="BranchLoadingButtonMousePressed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel21">
           <Properties>
@@ -420,17 +357,37 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="96" green="96" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Semester"/>
+            <Property name="text" type="java.lang.String" value="Room No."/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="SemesterComboBox">
+        <Component class="javax.swing.JComboBox" name="RoomNoComboBox">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
+              <StringArray count="21">
                 <StringItem index="0" value="Select"/>
+                <StringItem index="1" value="01"/>
+                <StringItem index="2" value="02"/>
+                <StringItem index="3" value="03"/>
+                <StringItem index="4" value="04"/>
+                <StringItem index="5" value="05"/>
+                <StringItem index="6" value="06"/>
+                <StringItem index="7" value="07"/>
+                <StringItem index="8" value="08"/>
+                <StringItem index="9" value="09"/>
+                <StringItem index="10" value="10"/>
+                <StringItem index="11" value="11"/>
+                <StringItem index="12" value="12"/>
+                <StringItem index="13" value="13"/>
+                <StringItem index="14" value="14"/>
+                <StringItem index="15" value="15"/>
+                <StringItem index="16" value="16"/>
+                <StringItem index="17" value="17"/>
+                <StringItem index="18" value="18"/>
+                <StringItem index="19" value="19"/>
+                <StringItem index="20" value="20"/>
               </StringArray>
             </Property>
           </Properties>
@@ -438,7 +395,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="SemesterLoadingButton">
+        <Component class="javax.swing.JButton" name="HostelLoadingButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
@@ -448,11 +405,8 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Load"/>
           </Properties>
-          <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="SemesterLoadingButtonMousePressed"/>
-          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="CourseLoadingButton">
+        <Component class="javax.swing.JButton" name="GetDetailsButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
@@ -460,36 +414,24 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="96" green="96" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Load"/>
+            <Property name="text" type="java.lang.String" value="Get Details"/>
           </Properties>
           <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="CourseLoadingButtonMousePressed"/>
+            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="GetDetailsButtonMousePressed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JComboBox" name="TimeComboBox">
+        <Component class="javax.swing.JComboBox" name="RoomTypeComboBox">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="2">
-                <StringItem index="0" value="AM"/>
-                <StringItem index="1" value="PM"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="SubjectComboBox">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="12" style="1"/>
-            </Property>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
+              <StringArray count="5">
                 <StringItem index="0" value="Select"/>
+                <StringItem index="1" value="Single Bed Room"/>
+                <StringItem index="2" value="2-Bed Room"/>
+                <StringItem index="3" value="3-Bed Room"/>
+                <StringItem index="4" value="4-Bed Room"/>
               </StringArray>
             </Property>
           </Properties>
@@ -497,14 +439,16 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JComboBox" name="FacultyComboBox">
+        <Component class="javax.swing.JComboBox" name="BedTypeComboBox">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="1">
+              <StringArray count="3">
                 <StringItem index="0" value="Select"/>
+                <StringItem index="1" value="Separate"/>
+                <StringItem index="2" value="Shared"/>
               </StringArray>
             </Property>
           </Properties>
@@ -512,7 +456,7 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JButton" name="SubLoadingButton">
+        <Component class="javax.swing.JButton" name="FloorLoadingButton">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
@@ -525,33 +469,42 @@
               <Color id="Hand Cursor"/>
             </Property>
           </Properties>
-          <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="SubLoadingButtonMousePressed"/>
-          </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="FacultyLoadingButton">
+        <Component class="javax.swing.JLabel" name="jLabel22">
           <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="12" style="1"/>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+              <FontInfo relative="true">
+                <Font bold="true" component="jLabel22" property="font" relativeSize="true" size="3"/>
+              </FontInfo>
             </Property>
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="96" green="96" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Load"/>
-            <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
-              <Color id="Hand Cursor"/>
-            </Property>
+            <Property name="text" type="java.lang.String" value="Floor No."/>
           </Properties>
-          <Events>
-            <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="FacultyLoadingButtonMousePressed"/>
-          </Events>
         </Component>
-        <Component class="javax.swing.JTextField" name="TimeTextField">
+        <Component class="javax.swing.JComboBox" name="FloorNoComboBox">
           <Properties>
             <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
               <Font name="Tahoma" size="12" style="1"/>
             </Property>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="6">
+                <StringItem index="0" value="Select"/>
+                <StringItem index="1" value="Ground Floor"/>
+                <StringItem index="2" value="First Floor"/>
+                <StringItem index="3" value="Second Floor"/>
+                <StringItem index="4" value="Third Floor"/>
+                <StringItem index="5" value="Top Floor"/>
+              </StringArray>
+            </Property>
+            <Property name="renderer" type="javax.swing.ListCellRenderer" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+              <Connection code="new ComboBoxRenderer()" type="code"/>
+            </Property>
           </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">
           <Properties>
@@ -561,39 +514,7 @@
             <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="96" green="96" red="0" type="rgb"/>
             </Property>
-            <Property name="text" type="java.lang.String" value="Day"/>
-          </Properties>
-        </Component>
-        <Component class="javax.swing.JComboBox" name="DayComboBox">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="12" style="1"/>
-            </Property>
-            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="7">
-                <StringItem index="0" value="SUN"/>
-                <StringItem index="1" value="MON"/>
-                <StringItem index="2" value="TUE"/>
-                <StringItem index="3" value="WED"/>
-                <StringItem index="4" value="THU"/>
-                <StringItem index="5" value="FRI"/>
-                <StringItem index="6" value="SAT"/>
-              </StringArray>
-            </Property>
-          </Properties>
-          <AuxValues>
-            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
-          </AuxValues>
-        </Component>
-        <Component class="javax.swing.JLabel" name="jLabel4">
-          <Properties>
-            <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
-              <Font name="Tahoma" size="14" style="1"/>
-            </Property>
-            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-              <Color blue="96" green="96" red="0" type="rgb"/>
-            </Property>
-            <Property name="text" type="java.lang.String" value="Time"/>
+            <Property name="text" type="java.lang.String" value="Name"/>
           </Properties>
         </Component>
       </SubComponents>

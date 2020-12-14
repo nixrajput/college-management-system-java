@@ -10,7 +10,7 @@ import javax.swing.JOptionPane;
 import repository.DBConnection;
 
 enum Role {
-    NULL, ADMIN, FACULTY, STUDENT;
+    ADMIN, FACULTY, STUDENT;
 }
 
 /**
@@ -45,7 +45,7 @@ public class LoginScreen extends javax.swing.JFrame {
             String uname = UsernameTextField.getText();
             String pass = String.copyValueOf(PasswordTextField.getPassword());
             String role = RoleComboBox.getSelectedItem().toString();
-            Role role_id = Role.NULL;
+            Role role_id = null;
             PreparedStatement stmt = null;
             try {
                 Connection conn = new DBConnection().connect();
@@ -74,15 +74,13 @@ public class LoginScreen extends javax.swing.JFrame {
                 ResultSet resultSet = stmt.executeQuery();
 
                 if (resultSet.next()) {
-                    MainScreen mainScreen = new MainScreen();
-                    mainScreen.setVisible(false);
                     this.dispose();
 
                     HomeScreen homeScreen = new HomeScreen(role_id, uname);
                     homeScreen.setVisible(true);
 
                 } else {
-                    JOptionPane.showMessageDialog(null, "Wrong credentials. Please check and try again.");
+                    JOptionPane.showMessageDialog(null, "Wrong credentials. Please check and try again!", "Error", 0);
                 }
             } catch (Exception e) {
                 System.out.println(e);

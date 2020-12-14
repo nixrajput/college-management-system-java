@@ -770,7 +770,6 @@ public class FacultyEntryForm extends javax.swing.JFrame {
             } else if (DesignationComboBox.getSelectedItem() == null || DepartmentComboBox.getSelectedItem() == "Select") {
                 JOptionPane.showMessageDialog(null, "Designation Field Is Required!!!");
             } else {
-
                 final String insert_sql = "INSERT INTO faculty(registration_no, name, father_name,"
                         + "sex, dob, email, phone, password, address, photo, qualifications, "
                         + "institution, designation, experience, course, department, date_joined, date_updated)"
@@ -824,7 +823,7 @@ public class FacultyEntryForm extends javax.swing.JFrame {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised!!!");
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised!", "Access Denied", 0);
         }
     }//GEN-LAST:event_SaveButtonActionPerformed
 
@@ -960,7 +959,7 @@ public class FacultyEntryForm extends javax.swing.JFrame {
                 }
             }
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised!!!");
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised!", "Access Denied", 0);
         }
 
     }//GEN-LAST:event_UpdateButtonMousePressed
@@ -990,7 +989,7 @@ public class FacultyEntryForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Student Registration No. is Empty!!!");
             }
         } else {
-            JOptionPane.showMessageDialog(null, "You Are Not Authorised!!!");
+            JOptionPane.showMessageDialog(null, "You Are Not Authorised!", "Access Denied", 0);
         }
 
 

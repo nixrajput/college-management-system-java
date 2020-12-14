@@ -57,7 +57,7 @@
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="SearchPanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Component id="TablePanel" max="32767" attributes="0"/>
+              <Component id="TablePanel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
@@ -279,14 +279,6 @@
       <SubComponents>
         <Container class="javax.swing.JScrollPane" name="TimeTableScrollPane">
           <Properties>
-            <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
-              <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-                <TitledBorder justification="2" title="Subject Issued">
-                  <Font PropertyName="font" name="Tahoma" size="14" style="1"/>
-                  <Color PropertyName="color" blue="96" green="96" red="0" type="rgb"/>
-                </TitledBorder>
-              </Border>
-            </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
               <Color id="Hand Cursor"/>
             </Property>

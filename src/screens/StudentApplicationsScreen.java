@@ -23,7 +23,7 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
     ImageIcon icon = new ImageIcon(iconURL);
     static Role role;
 
-    static String application_no = null;
+    static String reg_no = null;
 
     private final Connection con = new DBConnection().connect();
 
@@ -71,14 +71,15 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
         student_list = retrieveData();
         DefaultTableModel model = (DefaultTableModel) StudentTable.getModel();
         model.setRowCount(0);
-        Object[] row = new Object[6];
+        Object[] row = new Object[7];
         for (int i = 0; i < student_list.size(); i++) {
-            row[0] = student_list.get(i).getRollNo();
-            row[1] = student_list.get(i).getName();
-            row[2] = student_list.get(i).getFather_name();
-            row[3] = student_list.get(i).getCourse();
-            row[4] = student_list.get(i).getBranch();
-            row[5] = student_list.get(i).getSemester();
+            row[0] = student_list.get(i).getRegNo();
+            row[1] = student_list.get(i).getRollNo();
+            row[2] = student_list.get(i).getName();
+            row[3] = student_list.get(i).getFather_name();
+            row[4] = student_list.get(i).getCourse();
+            row[5] = student_list.get(i).getBranch();
+            row[6] = student_list.get(i).getSemester();
             model.addRow(row);
         }
     }
@@ -96,12 +97,12 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
 
         TitlePanel = new javax.swing.JPanel();
         TitleLabel = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
+        SearchPanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         SearchTextField = new javax.swing.JTextField();
         SearchButton = new javax.swing.JButton();
         RefreshButton = new javax.swing.JButton();
-        jPanel2 = new javax.swing.JPanel();
+        TablePanel = new javax.swing.JPanel();
         StudentScrollPane = new javax.swing.JScrollPane();
         StudentTable = new javax.swing.JTable();
 
@@ -138,6 +139,8 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        SearchPanel.setOpaque(false);
+
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 150, 150));
         jLabel1.setText("Search");
@@ -161,11 +164,11 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout SearchPanelLayout = new javax.swing.GroupLayout(SearchPanel);
+        SearchPanel.setLayout(SearchPanelLayout);
+        SearchPanelLayout.setHorizontalGroup(
+            SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SearchPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addGap(18, 18, 18)
@@ -176,11 +179,11 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
                 .addComponent(RefreshButton)
                 .addContainerGap())
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        SearchPanelLayout.setVerticalGroup(
+            SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SearchPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(SearchPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SearchTextField, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(SearchButton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -188,7 +191,8 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        StudentScrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Students", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(0, 150, 150))); // NOI18N
+        TablePanel.setOpaque(false);
+
         StudentScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         StudentScrollPane.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         StudentScrollPane.setMinimumSize(new java.awt.Dimension(462, 425));
@@ -200,11 +204,11 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Roll No.", "Name", "Father's Name", "Course", "Branch", "Semester"
+                "Reg. No.", "Roll No.", "Name", "Father's Name", "Course", "Branch", "Semester"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                true, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -219,15 +223,23 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
             }
         });
         StudentScrollPane.setViewportView(StudentTable);
+        if (StudentTable.getColumnModel().getColumnCount() > 0) {
+            StudentTable.getColumnModel().getColumn(1).setResizable(false);
+            StudentTable.getColumnModel().getColumn(2).setResizable(false);
+            StudentTable.getColumnModel().getColumn(3).setResizable(false);
+            StudentTable.getColumnModel().getColumn(4).setResizable(false);
+            StudentTable.getColumnModel().getColumn(5).setResizable(false);
+            StudentTable.getColumnModel().getColumn(6).setResizable(false);
+        }
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        javax.swing.GroupLayout TablePanelLayout = new javax.swing.GroupLayout(TablePanel);
+        TablePanel.setLayout(TablePanelLayout);
+        TablePanelLayout.setHorizontalGroup(
+            TablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(StudentScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        TablePanelLayout.setVerticalGroup(
+            TablePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(StudentScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 626, Short.MAX_VALUE)
         );
 
@@ -239,8 +251,8 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(TablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SearchPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -248,9 +260,9 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(TitlePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SearchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -288,14 +300,15 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
             if (student_list.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No Records Found!");
             } else {
-                Object[] row = new Object[6];
+                Object[] row = new Object[7];
                 for (int i = 0; i < student_list.size(); i++) {
-                    row[0] = student_list.get(i).getRollNo();
-                    row[1] = student_list.get(i).getName();
-                    row[2] = student_list.get(i).getFather_name();
-                    row[3] = student_list.get(i).getCourse();
-                    row[4] = student_list.get(i).getBranch();
-                    row[5] = student_list.get(i).getSemester();
+                    row[0] = student_list.get(i).getRegNo();
+                    row[1] = student_list.get(i).getRollNo();
+                    row[2] = student_list.get(i).getName();
+                    row[3] = student_list.get(i).getFather_name();
+                    row[4] = student_list.get(i).getCourse();
+                    row[5] = student_list.get(i).getBranch();
+                    row[6] = student_list.get(i).getSemester();
                     model.addRow(row);
                 }
             }
@@ -307,10 +320,10 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
 
     private void StudentTableMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StudentTableMousePressed
         int ind = StudentTable.getSelectedRow();
-        String reg_no = student_list.get(ind).getRegNo();
-        StudentEntryForm entryForm = new StudentEntryForm(role);
+        String _reg_no = student_list.get(ind).getRegNo();
+        StudentEntryForm entryForm = new StudentEntryForm(role, reg_no);
         entryForm.setVisible(true);
-        entryForm.showItemToFields(reg_no);
+        entryForm.showItemToFields(_reg_no);
     }//GEN-LAST:event_StudentTableMousePressed
 
     private void RefreshButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RefreshButtonMousePressed
@@ -333,13 +346,13 @@ public class StudentApplicationsScreen extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton RefreshButton;
     private javax.swing.JButton SearchButton;
+    private javax.swing.JPanel SearchPanel;
     private javax.swing.JTextField SearchTextField;
     private javax.swing.JScrollPane StudentScrollPane;
     private javax.swing.JTable StudentTable;
+    private javax.swing.JPanel TablePanel;
     private javax.swing.JLabel TitleLabel;
     private javax.swing.JPanel TitlePanel;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     // End of variables declaration//GEN-END:variables
 }

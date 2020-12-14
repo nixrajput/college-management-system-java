@@ -224,7 +224,6 @@ public class FacultySubjectIssuingScreen extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        TimeTableScrollPane.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Subject Issued", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 1, 14), new java.awt.Color(0, 150, 150))); // NOI18N
         TimeTableScrollPane.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         TimeTableScrollPane.setFont(new java.awt.Font("Tahoma", 1, 12)); // NOI18N
         TimeTableScrollPane.setRowHeaderView(null);
@@ -296,7 +295,7 @@ public class FacultySubjectIssuingScreen extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(SearchPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(TablePanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(TablePanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
