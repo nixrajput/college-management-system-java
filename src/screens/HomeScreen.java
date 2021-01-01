@@ -1,6 +1,7 @@
 package screens;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import constants.Role;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
@@ -59,7 +60,6 @@ public class HomeScreen extends javax.swing.JFrame {
         java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("constants/strings"); // NOI18N
         setTitle(bundle.getString("APP_NAME")); // NOI18N
         setIconImage(icon.getImage());
-        setMaximumSize(new java.awt.Dimension(1200, 800));
         setMinimumSize(new java.awt.Dimension(1200, 800));
         setName("HomeFrame"); // NOI18N
         setResizable(false);
@@ -241,7 +241,7 @@ public class HomeScreen extends javax.swing.JFrame {
         ReportsButton.setFont(ReportsButton.getFont().deriveFont(ReportsButton.getFont().getStyle() | java.awt.Font.BOLD, ReportsButton.getFont().getSize()+3));
         ReportsButton.setForeground(new java.awt.Color(80, 180, 140));
         ReportsButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/reports.png"))); // NOI18N
-        ReportsButton.setText("REPORTS");
+        ReportsButton.setText("RESULTS & REPORTS");
         ReportsButton.setBorder(null);
         ReportsButton.setBorderPainted(false);
         ReportsButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -362,11 +362,9 @@ public class HomeScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_HostelButtonMousePressed
 
     private void LogoutButtonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LogoutButtonMousePressed
-        
         this.dispose();
         LoginScreen loginScreen = new LoginScreen();
         loginScreen.setVisible(true);
-        
     }//GEN-LAST:event_LogoutButtonMousePressed
 
     public static void main(String args[]) {

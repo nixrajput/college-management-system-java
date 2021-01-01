@@ -1,6 +1,7 @@
 package screens;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import constants.Role;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -40,7 +41,6 @@ public class StudentEntryForm extends javax.swing.JFrame {
 
     String photopath = null;
     Date date = new Date();
-    private String title;
 
     private final Connection con = new DBConnection().connect();
 
@@ -52,11 +52,6 @@ public class StudentEntryForm extends javax.swing.JFrame {
     private String generateRegNo() {
         String app_no = RandomGenerator.getNumericString(4);
         return "STUDENT" + app_no;
-    }
-
-    @Override
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     private Student retrieveData(String reg_no) {

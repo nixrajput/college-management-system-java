@@ -1,6 +1,8 @@
 package screens;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import constants.Role;
+import constants.Strings;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -8,10 +10,6 @@ import java.sql.ResultSet;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import repository.DBConnection;
-
-enum Role {
-    ADMIN, FACULTY, STUDENT;
-}
 
 /**
  *
@@ -39,6 +37,7 @@ public class LoginScreen extends javax.swing.JFrame {
         } else if (PasswordTextField.getPassword().length <= 0) {
             JOptionPane.showMessageDialog(null, "Password Field Is Empty!!!");
         } else {
+            Connection conn = new DBConnection().connect();
             String admin_sql = "SELECT * FROM admins WHERE username=? and password=?";
             String faculty_sql = "SELECT * FROM faculty WHERE registration_no=? and password=?";
             String student_sql = "SELECT * FROM student WHERE registration_no=? and password=?";
@@ -48,7 +47,6 @@ public class LoginScreen extends javax.swing.JFrame {
             Role role_id = null;
             PreparedStatement stmt = null;
             try {
-                Connection conn = new DBConnection().connect();
                 switch (role) {
                     case "ADMIN":
                     case "admin":
@@ -74,8 +72,8 @@ public class LoginScreen extends javax.swing.JFrame {
                 ResultSet resultSet = stmt.executeQuery();
 
                 if (resultSet.next()) {
+                    JOptionPane.showMessageDialog(null, "Logged In Successfully.", "Success", 1);
                     this.dispose();
-
                     HomeScreen homeScreen = new HomeScreen(role_id, uname);
                     homeScreen.setVisible(true);
 
@@ -106,8 +104,7 @@ public class LoginScreen extends javax.swing.JFrame {
         LoginButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("constants/strings"); // NOI18N
-        setTitle(bundle.getString("APP_NAME")); // NOI18N
+        setTitle(Strings.getAPP_NAME());
         setIconImage(icon.getImage());
         setMaximumSize(new java.awt.Dimension(680, 620));
         setMinimumSize(new java.awt.Dimension(680, 620));
@@ -120,6 +117,7 @@ public class LoginScreen extends javax.swing.JFrame {
         TitleLabel.setFont(TitleLabel.getFont().deriveFont(TitleLabel.getFont().getStyle() | java.awt.Font.BOLD, TitleLabel.getFont().getSize()+29));
         TitleLabel.setForeground(new java.awt.Color(255, 255, 255));
         TitleLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        java.util.ResourceBundle bundle = java.util.ResourceBundle.getBundle("constants/strings"); // NOI18N
         TitleLabel.setText(bundle.getString("LOGIN")); // NOI18N
         TitleLabel.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 

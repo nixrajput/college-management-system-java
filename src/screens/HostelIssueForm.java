@@ -1,6 +1,7 @@
 package screens;
 
 import com.formdev.flatlaf.FlatLightLaf;
+import constants.Role;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -259,7 +260,6 @@ public class HostelIssueForm extends javax.swing.JFrame {
         setIconImage(icon.getImage());
         setMaximumSize(new java.awt.Dimension(540, 680));
         setMinimumSize(new java.awt.Dimension(540, 680));
-        setPreferredSize(new java.awt.Dimension(540, 680));
         setResizable(false);
 
         TitlePanel.setBackground(new java.awt.Color(51, 51, 51));
