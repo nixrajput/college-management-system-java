@@ -5,7 +5,9 @@
         <group>
             <file>file:/D:/Workspace/NetBeans%20Projects/CollegeManagementSystem/src/screens/LoginScreen.java</file>
             <file>file:/D:/Workspace/NetBeans%20Projects/CollegeManagementSystem/src/screens/FacultySubjectIssueForm.java</file>
+            <file>file:/D:/Workspace/NetBeans%20Projects/CollegeManagementSystem/src/repository/DBConnection.java</file>
             <file>file:/D:/Workspace/NetBeans%20Projects/CollegeManagementSystem/src/screens/StudentEntryForm.java</file>
+            <file>file:/D:/Workspace/NetBeans%20Projects/CollegeManagementSystem/src/repository/DBFunctions.java</file>
             <file>file:/D:/Workspace/NetBeans%20Projects/CollegeManagementSystem/src/screens/HostelIssueForm.java</file>
         </group>
     </open-files>
