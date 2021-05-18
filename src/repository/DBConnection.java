@@ -23,7 +23,7 @@ public class DBConnection {
         }
 
         try {
-            DBConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/college_man_sys?serverTimezone=UTC", "nixrajput", "hackernix000");
+            DBConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/YOUR_DB_NAME?serverTimezone=UTC", "YOUR_DB_USERNAME", "YOUR_DB_PASSWORD");
             System.out.println("Database Connected!");
         } catch (Exception se) {
             JOptionPane.showMessageDialog(null, "Database Connection Failed!");
