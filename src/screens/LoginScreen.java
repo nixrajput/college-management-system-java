@@ -213,10 +213,7 @@ public class LoginScreen extends javax.swing.JFrame {
         );
 
         LoginButton.setFont(LoginButton.getFont().deriveFont(LoginButton.getFont().getStyle() | java.awt.Font.BOLD, LoginButton.getFont().getSize()+3));
-        LoginButton.setForeground(new java.awt.Color(255, 255, 255));
-        LoginButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn.png"))); // NOI18N
         LoginButton.setText(bundle.getString("NEXT")); // NOI18N
-        LoginButton.setBorder(null);
         LoginButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         LoginButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         LoginButton.setOpaque(false);

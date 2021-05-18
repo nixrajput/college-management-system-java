@@ -123,9 +123,9 @@ public class FacultySubjectIssueForm extends javax.swing.JFrame {
         SemesterComboBox.setSelectedItem(data.getSemester());
 
         try {
-            Date date = null;
-            date = dateFormat.parse(data.getDate());
-            DateChooser.setDate(date);
+            Date _date = null;
+            _date = dateFormat.parse(data.getDate());
+            DateChooser.setDate(_date);
         } catch (ParseException e) {
             System.out.println(e);
         }

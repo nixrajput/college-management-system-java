@@ -2,6 +2,27 @@
 
 A Desktop Application for managing a `college` data. It's developed using `Java` programming language & `MySQL` database.
 
+## DB Structure
+<img src="/screenshots/db_structure.jpg" align="center" alt="Screenshot2" />
+
+## Screenshots
+
+### Screenshot 1
+<img src="/screenshots/1.jpg" align="center" alt="Screenshot2" />
+
+### Screenshot 2
+<img src="/screenshots/2.jpg" align="center" alt="Screenshot2" />
+
+### Screenshot 3
+<img src="/screenshots/3.jpg" align="center" alt="Screenshot2" />
+
+### Screenshot 4
+<img  src="/screenshots/4.jpg" align="center" alt="Screenshot2" />
+
+### Screenshot 5
+<img src="/screenshots/5.jpg" align="center" alt="Screenshot2" />
+
+
 ## Connect With Me
 
 [<img align="left" alt="nixrajput | GitHub" width="24px" src="https://raw.githubusercontent.com/nixrajput/nixlab-files/master/images/icons/github-brands.svg" />][website]
@@ -15,8 +36,7 @@ A Desktop Application for managing a `college` data. It's developed using `Java`
 [<img align="left" alt="nixrajput | Instagram" width="24px" src="https://raw.githubusercontent.com/nixrajput/nixlab-files/master/images/icons/instagram-brands.svg" />][instagram]
 
 [github]: https://github.com/nixrajput
-[webdevplaylist]: https://github.com/nixrajput
-[website]: https://nixlab-blog-api.herokuapp.com
+[website]: https://nixlab.co.in
 [facebook]: https://facebook.com/nixrajput07
 [twitter]: https://facebook.com/nixrajput07
 [instagram]: https://instagram.com/nixrajput

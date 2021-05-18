@@ -629,11 +629,7 @@ public class FacultyEntryForm extends javax.swing.JFrame {
         ButtonPanel.setLayout(flowLayout1);
 
         SaveButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        SaveButton.setForeground(new java.awt.Color(255, 255, 255));
-        SaveButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn.png"))); // NOI18N
         SaveButton.setText("Save");
-        SaveButton.setBorder(null);
-        SaveButton.setBorderPainted(false);
         SaveButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         SaveButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         SaveButton.setPreferredSize(new java.awt.Dimension(160, 40));
@@ -645,11 +641,7 @@ public class FacultyEntryForm extends javax.swing.JFrame {
         ButtonPanel.add(SaveButton);
 
         UpdateButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        UpdateButton.setForeground(new java.awt.Color(255, 255, 255));
-        UpdateButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn.png"))); // NOI18N
         UpdateButton.setText("Update");
-        UpdateButton.setBorder(null);
-        UpdateButton.setBorderPainted(false);
         UpdateButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         UpdateButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         UpdateButton.setPreferredSize(new java.awt.Dimension(160, 40));
@@ -661,11 +653,7 @@ public class FacultyEntryForm extends javax.swing.JFrame {
         ButtonPanel.add(UpdateButton);
 
         DeleteButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        DeleteButton.setForeground(new java.awt.Color(255, 255, 255));
-        DeleteButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn.png"))); // NOI18N
         DeleteButton.setText("Delete");
-        DeleteButton.setBorder(null);
-        DeleteButton.setBorderPainted(false);
         DeleteButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         DeleteButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         DeleteButton.setPreferredSize(new java.awt.Dimension(160, 40));
@@ -677,11 +665,7 @@ public class FacultyEntryForm extends javax.swing.JFrame {
         ButtonPanel.add(DeleteButton);
 
         ClearButton.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        ClearButton.setForeground(new java.awt.Color(255, 255, 255));
-        ClearButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/assets/btn.png"))); // NOI18N
         ClearButton.setText("Clear");
-        ClearButton.setBorder(null);
-        ClearButton.setBorderPainted(false);
         ClearButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ClearButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         ClearButton.setPreferredSize(new java.awt.Dimension(160, 40));
